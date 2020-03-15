@@ -31,7 +31,7 @@ class ManageTeamController:
         :param team_entity: TeamEntity
         :return: TeamEntity
         """
-        self._use_case.create_team(team_entity)
+        return self._use_case.create_team(team_entity)
 
     def update_team(self, team_entity: TeamEntity):
         """
@@ -39,8 +39,7 @@ class ManageTeamController:
         :param team_entity: TeamEntity
         :return: TeamEntity
         """
-        self._use_case.update_team(team_entity)
-
+        return self._use_case.update_team(team_entity)
 
     def delete_team(self, team_pk: int):
         """
@@ -48,4 +47,4 @@ class ManageTeamController:
         :param team_entity: TeamEntity
         :return: TeamEntity
         """
-        self._use_case.delete_team(team_pk)
+        return self._use_case.delete_team(team_pk)
