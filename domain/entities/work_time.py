@@ -1,15 +1,16 @@
 
 from domain.entities.validators import EmployeeWorkTimeOutOfRange
+from .employee import EmployeeEntity
 
 
 class WorkTimeEntity:
     """
     Employee work time entity
     """
-    def __init__(self,  hours: int, employee_id: int, id: int = None):
+    def __init__(self,  hours: int, employee: EmployeeEntity, id: int = None):
         self._id = id
         self._hours = hours
-        self._employee_id = employee_id
+        self._employee = employee
 
     @property
     def id(self):
@@ -24,12 +25,12 @@ class WorkTimeEntity:
             raise EmployeeWorkTimeOutOfRange()
 
     @property
-    def employee_id(self):
-        return self._employee_id
+    def employee(self):
+        return self._employee
 
-    @employee_id.setter
-    def employee_id(self, employee_id):
-        self._employee_id = employee_id
+    @employee.setter
+    def employee(self, employee):
+        self._employee = employee
 
     def validates_hours(self, hours: int):
         print(F"Hours: {hours}")

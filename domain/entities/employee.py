@@ -33,11 +33,7 @@ class EmployeeEntity:
         self._total_work_hours = total_work_hours
         self._is_a_leader = is_a_leader
         self._team_id = team_id
-        if total_work_hours is not None:
-            self._pay = self.calculate_pay()
-        else:
-            self._pay = None
-
+        self._pay = None
 
     @property
     def id(self):
@@ -89,7 +85,12 @@ class EmployeeEntity:
 
     @property
     def pay(self):
+        if self._total_work_hours is not None:
+            self._pay = self.calculate_pay()
         return self._pay
+
+    def set_work_time_hours(self, hours):
+        self._total_work_hours = hours
 
     @property
     def is_a_leader(self):
@@ -117,6 +118,7 @@ class EmployeeEntity:
                 pay += pay * 0.1
             return pay
         else:
+            print(F"Hours: {self._total_work_hours}")
             raise EmployeeWorkTimeOutOfRange()
 
     def is_part_time(self):

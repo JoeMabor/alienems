@@ -74,19 +74,21 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
 
     def _add_part_time_employee(self, employee_entity: EmployeeEntity, work_arrangement: WorkArrangementEntity):
         employee = self._employee_repo.save(employee_entity)
-        work_arrangement.employee_id = employee.id
+        work_arrangement.employee = employee
         print(F"work arrange percent: {work_arrangement.percent}")
         wa_entity = self._work_arrangement_repo.save_work_arrangement(work_arrangement)
         work_hours = self._calculate_work_time_hours(wa_entity.percent )
-        work_time = WorkTimeEntity(hours=work_hours, employee_id=employee.id)
-        self._work_time_repo.save_work_time(work_time)
+        work_time = WorkTimeEntity(hours=work_hours, employee=employee)
+        wt_model = self._work_time_repo.save_work_time(work_time)
+        employee.set_work_time_hours(wt_model.hours)
         return employee
 
     def _add_full_time_employee(self, employee_entity: EmployeeEntity):
         employee = self._employee_repo.save(employee_entity)
-        work_time = WorkTimeEntity(hours=40, employee_id=employee.id)
+        work_time = WorkTimeEntity(hours=40, employee=employee)
         print(F"Work hours in use case: {work_time.hours}")
-        self._work_time_repo.save_work_time(work_time)
+        wt_model = self._work_time_repo.save_work_time(work_time)
+        employee.set_work_time_hours(wt_model.hours)
         return employee
 
     def _calculate_work_time_hours(self, percentage):
