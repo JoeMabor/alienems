@@ -44,10 +44,10 @@ class EmployeeRepoPort(ABC):
         pass
 
     @abstractmethod
-    def employee_exists(self, employee_id):
+    def employee_exists(self, employee_pk):
         """
         Check if employee is in the repository
-        :param employee_id: employee primary key id
+        :param employee_pk: employee primary key id
         :return: True or False
         """
         pass

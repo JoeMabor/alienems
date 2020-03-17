@@ -1,21 +1,18 @@
+from .employee import EmployeeEntity
+from .team import TeamEntity
+
 
 class TeamLeaderEntity:
     """
     Entity that represent a team leader
     """
-    def __init__(self, id: int, team_id, leader_id):
-        self._id = id
-        self._team = team_id
-        self._leader = leader_id
-
+    def __init__(self, leader: EmployeeEntity, teams: list):
+        self._leader = leader
+        self._teams = teams
 
     @property
-    def id(self):
-        return self._id
-
-    @property
-    def team(self):
-        return self._team
+    def teams(self):
+        return self._teams
 
     @property
     def leader(self):

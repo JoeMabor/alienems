@@ -32,3 +32,11 @@ class TeamRepoPort(ABC):
         :return: True or False
         """
         pass
+
+    @abstractmethod
+    def has_a_leader(self, team_pk: int):
+        """
+        Check if a team in the repository already has a leader
+        :param team_pk:
+        :return:
+        """

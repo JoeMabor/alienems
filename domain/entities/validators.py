@@ -1,10 +1,28 @@
 
-class HasALeader(Exception):
+class TeamHasALeader(Exception):
     """
     Exception thrown if a user attempt to assign a leader to a team that already has a leader
     """
     def __init__(self, message="Team already has a leader"):
-        super(HasALeader, self).__init__(message)
+        super(TeamHasALeader, self).__init__(message)
+        self.message = message
+
+
+class TeamDoesNotHasALeader(Exception):
+    """
+    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    """
+    def __init__(self, message="Team does not has a leader"):
+        super(TeamDoesNotHasALeader, self).__init__(message)
+        self.message = message
+
+
+class EmployeeIsNotALeader(Exception):
+    """
+    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    """
+    def __init__(self, message="Employee of the given id is not a leader"):
+        super(EmployeeIsNotALeader, self).__init__(message)
         self.message = message
 
 
@@ -56,4 +74,16 @@ class EntityIdIsNegative(Exception):
 class EmployeeDoesNotHaveATeam(Exception):
     def __init__(self, message="An employee must have at least one team"):
         super(EmployeeDoesNotHaveATeam, self).__init__(message)
+        self.message = message
+
+
+class EmployeeDoesNotExist(Exception):
+    def __init__(self, message="Employee with the given id does not exist"):
+        super(EmployeeDoesNotExist, self).__init__(message)
+        self.message = message
+
+
+class TeamDoesNotExist(Exception):
+    def __init__(self, message="Team with the given id does not exist"):
+        super(TeamDoesNotExist, self).__init__(message)
         self.message = message

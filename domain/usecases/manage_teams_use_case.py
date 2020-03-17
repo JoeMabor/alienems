@@ -2,7 +2,6 @@ from .ports.manage_teams_ports import ManageTeamUseCasePort
 from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
 from ..entities.team import TeamEntity
-from domain.entities.validators import HasALeader
 from domain.entities.validators import ObjectEntityDoesNotExist
 from .data_models.manage_team_data_models import CreateTeamRequestData
 

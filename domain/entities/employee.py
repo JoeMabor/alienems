@@ -6,6 +6,7 @@ import datetime
 from .validators import NotEmployeeEntityType
 from .validators import EmployeeWorkTimeOutOfRange
 from .validators import EmployeeDoesNotHaveATeam
+import decimal
 
 
 class EmployeeEntity:
@@ -17,7 +18,7 @@ class EmployeeEntity:
                  id: int = None,
                  created_at: datetime.datetime = None,
                  updated_at: datetime.datetime = None,
-                 is_a_leader: bool = None,
+                 is_a_leader: bool = False,
                  total_work_hours: int = None,
                  team_id: int = None,
 
@@ -34,6 +35,7 @@ class EmployeeEntity:
         self._is_a_leader = is_a_leader
         self._team_id = team_id
         self._pay = None
+        self._bonus_percent = decimal.Decimal(value=0.10)
 
     @property
     def id(self):
@@ -96,6 +98,10 @@ class EmployeeEntity:
     def is_a_leader(self):
         return self._is_a_leader
 
+    @is_a_leader.setter
+    def is_a_leader(self, is_leader: bool):
+        self._is_a_leader = is_leader
+
     def set_team_id(self, team_id):
         self._team_id = team_id
 
@@ -109,13 +115,12 @@ class EmployeeEntity:
             raise NotEmployeeEntityType()
 
     def calculate_pay(self):
-        print(F"Total hours: {self._total_work_hours }")
         if self._total_work_hours > 0 and self._total_work_hours <= 40:
             # calculate employee pay
             pay = self._total_work_hours * self._hourly_rate
             if self._is_a_leader:
                 # leader get paid 10 % more
-                pay += pay * 0.1
+                pay += self._add_leadership_bonus(pay)
             return pay
         else:
             print(F"Hours: {self._total_work_hours}")
@@ -130,6 +135,10 @@ class EmployeeEntity:
             return True
         else:
             return False
+
+    def _add_leadership_bonus(self, pay):
+        bonus = pay * self._bonus_percent
+        return decimal.Decimal(bonus)
 
 
 

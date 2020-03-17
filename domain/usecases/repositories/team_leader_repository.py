@@ -28,19 +28,11 @@ class TeamLeaderRepoPort(ABC):
         pass
 
     @abstractmethod
-    def update_team_leader(self, tl_entity: TeamLeaderEntity):
+    def save_team_leader(self, team_pk: int, employee_pk):
         """
-        Update team leader
-        :param tl_entity: TeamLeaderEntity
+        Create/assign team leader
+        :param team_pk:
+        :param employee_pk:
         :return:
-        """
-        pass
-
-    @abstractmethod
-    def delete_team_leader(self, tl_pk: int):
-        """
-        Delete team leader
-        :param tl_pk: int
-        :return: TeamLeaderEntity
         """
         pass
