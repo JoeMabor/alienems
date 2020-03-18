@@ -15,10 +15,10 @@ class EmployeeEntity:
                  employee_id: str,
                  hourly_rate: decimal.Decimal,
                  employee_type: int,
+                 is_a_leader: bool = False,
                  id: int = None,
                  created_at: datetime.datetime = None,
                  updated_at: datetime.datetime = None,
-                 is_a_leader: bool = False,
                  total_work_hours: int = None,
                  team_id: int = None,
 

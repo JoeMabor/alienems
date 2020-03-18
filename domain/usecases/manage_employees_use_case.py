@@ -73,12 +73,14 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
             # check if team exist and team employee
             self._team_employee_repo.save_team_employee(team_pk=team_pk, employee_pk=new_employee.id)
             # check if team has a leader
-            if team.leader:
+            if self._team_repo.has_a_leader(team_pk):
+                # team has a leader already
                 pass
             else:
-                # make use a leader if team does not have a leader
-                team.leader = new_employee
-                self._team_repo.save(team)
+                # no team leader, make new team member a leader
+                tl_entity = self._team_leader_repo.save_team_leader(team_pk=team_pk,
+                                                                    employee_pk=new_employee.id)
+                new_employee = self._employee_repo.save(employee_entity=new_employee)
         return new_employee
 
     def delete_employee(self, employee_pk: int):

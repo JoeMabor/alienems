@@ -1,6 +1,6 @@
 from domain.usecases.repositories.team_leader_repository import TeamLeaderRepoPort
 from domain.entities.team_leader import TeamLeaderEntity
-from ..models import Team, Employee
+from ..models import TeamLeader
 from .helpers import DataConverter
 
 
@@ -15,28 +15,26 @@ class TeamLeaderRepoImpl(TeamLeaderRepoPort):
         Retrieve all teams and get their respective leaders as employee entities
         :return:
         """
-        leaders = Employee.objects.filter(is_a_leader=True)
+        team_leaders = TeamLeader.objects.all()
         leader_entities = []
-        for leader in leaders:
-            leader_entities.append(DataConverter.to_employee_entity(leader))
+        for team_leader in team_leaders:
+            leader_entities.append(DataConverter.to_team_leader_entity(team_leader))
         return leader_entities
 
-    def retrieve_team_leader(self, leader_id: int):
+    def retrieve_team_leader(self, tl_pk: int):
         """
         Retrieve team leader and all teams it leader
-        :param leader_id:
+        :param tl_pk:
         :return:
         """
-        employee = Employee.objects.get(pk=leader_id)
-        teams = Team.objects.filter(leader=employee)
-        print(F"Teams of {employee.name}: {teams}")
-        return DataConverter.to_team_leader_entity(employee, teams)
+        try:
+            team_leader = TeamLeader.objects.get(pk=tl_pk)
+            return DataConverter.to_team_leader_entity(team_leader)
+        except TeamLeader.DoesNotExist:
+            raise TeamLeader.DoesNotExist
 
     def save_team_leader(self, team_pk: int, employee_pk: int):
-        team_model = Team.objects.get(pk=team_pk)
-        team_model.leader_id = employee_pk
-        team_model.save()
-        team_model.refresh_from_db()
-        teams = Team.objects.filter(leader_id=employee_pk)
-        employee_obj = Employee.objects.get(pk=employee_pk)
-        return DataConverter.to_team_leader_entity(employee_obj, teams)
+        team_leader = TeamLeader(leader_id=employee_pk, team_id=team_pk)
+        team_leader.save()
+        team_leader.refresh_from_db()
+        return DataConverter.to_team_leader_entity(team_leader)

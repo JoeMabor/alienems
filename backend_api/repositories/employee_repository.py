@@ -1,6 +1,6 @@
 from domain.usecases.repositories.employee_repository import EmployeeRepoPort
 from domain.entities.employee import EmployeeEntity
-from backend_api.models import Employee
+from backend_api.models import Employee, Team
 from backend_api.models import WorkTime
 from .helpers import DataConverter
 
@@ -64,6 +64,3 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
             return employee_entity
         except Employee.DoesNotExist:
             raise Employee.DoesNotExist
-
-
-

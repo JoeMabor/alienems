@@ -136,7 +136,7 @@ class CreateTeamSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False, allow_null=True)
     name = serializers.CharField(max_length=50)
     description = serializers.CharField()
-    leader_id = serializers.IntegerField(allow_null=True)
+    leader_id = serializers.IntegerField(allow_null=True, required=False)
 
     def create(self, validated_data):
         """
@@ -195,8 +195,9 @@ class PresentTeamSerializer(serializers.Serializer):
 
 
 class TeamLeaderPresenterSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     leader = PresentEmployeeDataSerializer(serializers.Serializer)
-    teams = PresentTeamSerializer(serializers.Serializer, many=True)
+    team = PresentTeamSerializer(serializers.Serializer)
 
     def create(self, validated_data):
         """
@@ -213,8 +214,9 @@ class TeamLeaderPresenterSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
+        instance.id = validated_data.get("id", instance.id)
         instance.leader = validated_data.get("leader", instance.leader)
-        instance.teams = validated_data.get("teams", instance.team)
+        instance.team = validated_data.get("team", instance.team)
         return instance
 
 
@@ -278,7 +280,7 @@ class PresentTeamAllEmployeesDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.PresentTeamAllEmployeesData(**validated_data)
+        return team_data.PresentTeamLeaderData(**validated_data)
 
     def update(self, instance, validated_data):
         """

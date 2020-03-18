@@ -44,25 +44,13 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         else:
             raise domain_validators.TeamDoesNotExist()
 
-    def retrieve_team_leader(self, leader_id: int):
+    def retrieve_team_leader(self, tl_pk: int):
         """
         Retrieving a team leader for a given team primary key
-        :param leader_id:
+        :param tl_pk:
         :return:
         """
-        # check if employee exist in repository or is a leader of any team
-        # return employee if it exist in database
-        employee_entity = self._employee_repo.employee_exists(employee_pk=leader_id)
-        if employee_entity:
-            if employee_entity.is_a_leader:
-                tl_entity = self._team_leader_repo.retrieve_team_leader(leader_id)
-                print(F"Team leader: {tl_entity.teams}")
-
-                return tl_entity
-            else:
-                raise domain_validators.EmployeeIsNotALeader()
-        else:
-            raise domain_validators.EmployeeDoesNotExist()
+        return self._team_leader_repo.retrieve_team_leader(tl_pk)
 
     def change_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         """
@@ -78,8 +66,6 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
             if employee:
                 tl_entity = self._team_leader_repo.save_team_leader(team_pk=request_data.team_id,
                                                                     employee_pk=request_data.employee_id)
-                employee.is_a_leader = True
-                self._employee_repo.save(employee_entity=employee)
                 return tl_entity
             else:
                 raise domain_validators.EmployeeDoesNotExist()

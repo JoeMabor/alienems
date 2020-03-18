@@ -9,6 +9,7 @@ from backend_api.models import Employee
 from backend_api.models import WorkTime
 from ..models import WorkArrangement
 from ..models import TeamEmployee
+from ..models import TeamLeader
 
 
 class DataConverter:
@@ -48,6 +49,8 @@ class DataConverter:
         :param total_hours: total hours of employeee work time
         :return:
         """
+        is_a_team_leader = employee_is_a_leader(employee_pk=employee_obj.id)
+        print(F"Is a team leader: {is_a_team_leader}")
         total_hours = WorkTime.objects.get_employee_work_time(employee_obj.id)
         employee_entity = EmployeeEntity(
             id=employee_obj.id,
@@ -57,7 +60,7 @@ class DataConverter:
             hourly_rate=employee_obj.hourly_rate,
             created_at=employee_obj.created_at,
             updated_at=employee_obj.updated_at,
-            is_a_leader=employee_obj.is_a_leader,
+            is_a_leader=is_a_team_leader,
             total_work_hours=total_hours
 
         )
@@ -92,13 +95,11 @@ class DataConverter:
         )
 
     @staticmethod
-    def to_team_leader_entity(leader: Employee, teams):
-        tl_entities = []
-        for team in teams:
-            tl_entities.append(DataConverter.to_team_entity(team))
+    def to_team_leader_entity(team_leader: TeamLeader):
         return TeamLeaderEntity(
-            leader=DataConverter.to_employee_entity(leader),
-            teams=tl_entities
+            id=team_leader.id,
+            leader=DataConverter.to_employee_entity(team_leader.leader),
+            team=DataConverter.to_team_entity(team_leader.team)
         )
 
     @staticmethod
@@ -110,6 +111,17 @@ class DataConverter:
         )
 
 
-
+def employee_is_a_leader(employee_pk):
+    """
+    Check if an employee is a leader of any team
+    :param employee_pk:
+    :return:
+    """
+    teams = TeamLeader.objects.filter(leader_id=employee_pk)
+    # if an employee is a leader of one or more teams than return True otherwise False
+    if len(teams) >= 1:
+        return True
+    else:
+        return False
 
 

@@ -38,7 +38,8 @@ class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
             employee = self._employee_repo.employee_exists(employee_pk=request_data.employee_id)
             if employee:
 
-                if self._team_employee_repo.is_a_member(team_pk=request_data.team_id, employee_pk=request_data.employee_id):
+                if self._team_employee_repo.is_a_member(team_pk=request_data.team_id,
+                                                        employee_pk=request_data.employee_id):
                     raise domain_validators.EmployeeIsATeamMember()
                 else:
                     print("Not a member")

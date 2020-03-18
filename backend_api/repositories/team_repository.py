@@ -1,6 +1,6 @@
 from domain.usecases.repositories.team_repository import TeamRepoPort
 from domain.entities.team import TeamEntity
-from backend_api.models import Team
+from backend_api.models import Team, TeamLeader
 from .helpers import DataConverter
 
 
@@ -49,10 +49,8 @@ class TeamRepoPortImp(TeamRepoPort):
             return None
 
     def has_a_leader(self, team_pk: int):
-        team = Team.objects.get(pk=team_pk)
-        if team.leader:
-            # team leader is not null
+        try:
+            team_leader = TeamLeader.objects.get(team_id=team_pk)
             return True
-        else:
+        except TeamLeader.DoesNotExist:
             return False
-

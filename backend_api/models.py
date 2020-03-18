@@ -49,11 +49,24 @@ class Team(models.Model):
         return F"{self.name} -> {leader}"
 
 
+class TeamLeader(models.Model):
+    """
+    A model that maps teams employees table containing each team members.
+    """
+    leader = models.ForeignKey(Employee, related_name="teamLeader", on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
+
+    def __str__(self):
+        return F"{self.leader} -> {self.team}"
+
+
 class TeamEmployee(models.Model):
     """
     A model that maps teams employees table containing each team members.
     """
-    employee = models.ForeignKey(Employee, related_name="team", on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, related_name="teamEmployee", on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)

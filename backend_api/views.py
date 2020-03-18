@@ -125,21 +125,21 @@ class TeamLeaderView(viewsets.ViewSet):
     # manage team controller
     controller = CONTROLLERS.team_leaders_controller()
 
+    def get_team_leader_object(self, pk):
+        try:
+            return self.controller.retrieve_team_leader(pk)
+        except ObjectDoesNotExist:
+            raise Http404
+
     def list(self, request):
-        teams = self.controller.retrieve_all_teams_leaders()
-        serializer = data_serializers.PresentEmployeeDataSerializer(teams, many=True)
+        team_leaders = self.controller.retrieve_all_teams_leaders()
+        serializer = data_serializers.TeamLeaderPresenterSerializer(team_leaders, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        try:
-            new_team_entity = self.controller.retrieve_team_leader(leader_pk=pk)
-            serializer = data_serializers.TeamLeaderPresenterSerializer(new_team_entity)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except (
-                domain_exceptions.EmployeeDoesNotExist,
-                domain_exceptions.EmployeeIsNotALeader
-        )as e:
-            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+        team_leader = self.get_team_leader_object(pk)
+        serializer = data_serializers.TeamLeaderPresenterSerializer(team_leader)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def create(self, request):
         serializer = data_serializers.TeamLeaderOrEmployeeRequestDataSerializer(data=request.data)

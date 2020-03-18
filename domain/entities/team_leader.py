@@ -6,13 +6,18 @@ class TeamLeaderEntity:
     """
     Entity that represent a team leader
     """
-    def __init__(self, leader: EmployeeEntity, teams: list):
+    def __init__(self, id:int, leader: EmployeeEntity, team: TeamEntity):
+        self._id = id
         self._leader = leader
-        self._teams = teams
+        self._team = team
 
     @property
-    def teams(self):
-        return self._teams
+    def id(self):
+        return self._id
+
+    @property
+    def team(self):
+        return self._team
 
     @property
     def leader(self):

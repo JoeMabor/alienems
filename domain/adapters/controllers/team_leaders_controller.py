@@ -18,13 +18,13 @@ class TeamLeadersController:
         """
         return self._use_case.retrieve_all_teams_leaders()
 
-    def retrieve_team_leader(self, leader_pk: int):
+    def retrieve_team_leader(self, tl_pk: int):
         """
-        Get a team of a given primary key
-        :param leader_id:
+        Get a team leader of a given primary key
+        :param tl_pk:
         :return
         """
-        return self._use_case.retrieve_team_leader(leader_pk)
+        return self._use_case.retrieve_team_leader(tl_pk)
 
     def change_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         """

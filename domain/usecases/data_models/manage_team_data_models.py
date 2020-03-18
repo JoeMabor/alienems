@@ -33,7 +33,8 @@ class PresentTeamLeaderRequestData:
     """
     Data format to present Team leader
     """
-    def __init__(self, leader: EmployeePresenterData, team: PresentTeamRequestData):
+    def __init__(self, id: int,  leader: EmployeePresenterData, team: PresentTeamRequestData):
+        self._id = id
         self.leader = leader
         self.team = team
 
@@ -55,12 +56,3 @@ class PresentTeamEmployeeData:
         self.id = id
         self.team = team
         self.employee = employee
-
-
-class PresentTeamAllEmployeesData:
-    """
-    Data to present Team Employees
-    """
-    def __init__(self, team, employees: list):
-        self.team = team
-        self.employees = employees
