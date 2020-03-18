@@ -115,7 +115,7 @@ class EmployeeEntity:
             raise NotEmployeeEntityType()
 
     def calculate_pay(self):
-        if self._total_work_hours > 0 and self._total_work_hours <= 40:
+        if self._total_work_hours >0 and self._total_work_hours <= 40:
             # calculate employee pay
             pay = self._total_work_hours * self._hourly_rate
             if self._is_a_leader:
@@ -123,7 +123,7 @@ class EmployeeEntity:
                 pay += self._add_leadership_bonus(pay)
             return pay
         else:
-            print(F"Hours: {self._total_work_hours}")
+            print(F"Employee id:{self._id} Hours: {self._total_work_hours}")
             raise EmployeeWorkTimeOutOfRange()
 
     def is_part_time(self):

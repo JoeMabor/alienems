@@ -74,7 +74,14 @@ class UpdateEmployeeMRequestData:
         self.hourly_rate = hourly_rate
 
 
-
+class PresentWorkTimeData:
+    """
+    Data model for presenting work time of each employee
+    """
+    def __init__(self, id: int, hours: int, employee: EmployeePresenterData):
+        self.id = id
+        self.hours = hours
+        self.employee = employee
 
 
 

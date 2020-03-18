@@ -228,6 +228,34 @@ class TeamEmployeeView(viewsets.ViewSet):
             return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
 
 
+class WorkTimeView(viewsets.ViewSet):
+    # manage team controller
+    controller = CONTROLLERS.work_time_controller()
+
+    def get_team_employee_object(self, pk):
+        try:
+            return self.controller.retrieve_work_time(pk)
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def list(self, request):
+        teams = self.controller.retrieve_all_work_times()
+        serializer = data_serializers.PresentWorkTimeDataSerializer(teams, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        try:
+            team_employee = self.get_team_employee_object(pk)
+            serializer = data_serializers.PresentWorkTimeDataSerializer(team_employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except (
+                domain_exceptions.TeamDoesNotExist
+        )as e:
+            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 

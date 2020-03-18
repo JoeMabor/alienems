@@ -5,9 +5,7 @@ just use entities and some data models some requests and responses.
 """
 
 from rest_framework import serializers
-from domain.usecases.data_models.manage_employees_data_models import EmployeePresenterData
-from domain.usecases.data_models.manage_employees_data_models import CreateEmployeeRequestData
-from domain.usecases.data_models.manage_employees_data_models import UpdateEmployeeMRequestData
+import domain.usecases.data_models.manage_employees_data_models as employee_data
 import domain.usecases.data_models.manage_team_data_models as team_data
 from domain.entities.team import TeamEntity
 
@@ -34,7 +32,7 @@ class PresentEmployeeDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return EmployeePresenterData(**validated_data)
+        return employee_data.EmployeePresenterData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -71,7 +69,7 @@ class UpdateEmployeeRequestSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return UpdateEmployeeMRequestData(**validated_data)
+        return employee_data.UpdateEmployeeMRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -114,7 +112,7 @@ class CreateEmployeeSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return CreateEmployeeRequestData(**validated_data)
+        return employee_data.CreateEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -270,9 +268,10 @@ class PresentTeamEmployeeDataSerializer(serializers.Serializer):
         return instance
 
 
-class PresentTeamAllEmployeesDataSerializer(serializers.Serializer):
-    team = PresentTeamSerializer(serializers.Serializer)
-    employees = PresentEmployeeDataSerializer(serializers.Serializer, many=True)
+class PresentWorkTimeDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    hours = serializers.IntegerField()
+    employee = PresentEmployeeDataSerializer(serializers.Serializer)
 
     def create(self, validated_data):
         """
@@ -280,7 +279,7 @@ class PresentTeamAllEmployeesDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.PresentTeamLeaderData(**validated_data)
+        return employee_data.PresentWorkTimeData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -289,11 +288,8 @@ class PresentTeamAllEmployeesDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        instance.team = validated_data.get("team", instance.team)
-        instance.employees = validated_data.get("employees", instance.employees)
-        return instance
-
-
-
+        instance.id = validated_data.get("id", instance.id)
+        instance.hours = validated_data.get("hours", instance.hours)
+        instance.employee = validated_data.get("employee", instance.employees)
 
 
