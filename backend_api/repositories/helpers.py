@@ -33,8 +33,8 @@ class DataConverter:
         team_model = Team(
             id=team_entity.id,
             name=team_entity.name,
-            description=team_entity.description,
-            leader=team_entity.leader)
+            description=team_entity.description
+        )
         if team_entity.has_a_leader():
             # check if a team has a leader
             team_model.leader = DataConverter.from_employee_entity(team_entity.leader)

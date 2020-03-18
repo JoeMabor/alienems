@@ -3,6 +3,7 @@ from domain.entities.team_employee import TeamEmployeeEntity
 from ..models import TeamEmployee
 from ..models import Team
 from .helpers import DataConverter
+from django.db.models import Q
 
 
 class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
@@ -10,25 +11,65 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
     Django ORM implementation of team employee repository.
     """
 
-    def retrieve_all_team_employees(self):
+    def is_a_member(self, team_pk: int, employee_pk: int):
+        # team employee exist in db then employee is already a team member
+        try:
+            team_employee = TeamEmployee.objects.get(Q(team_id=team_pk) & Q(employee_id=employee_pk))
+            print(team_employee)
+            return True
+        except TeamEmployee.DoesNotExist:
+            print(F"Team Id: {team_pk} employee id : {employee_pk}")
+            return False
+
+    def retrieve_all_teams_employees(self):
+        # loop through team objects and each team employees
+        team_employees_entities = []
         team_employees = TeamEmployee.objects.all()
-        te_entities = []
-        for team_employee in team_employees:
-            te_entities.append(DataConverter.to_team_employee_entity(team_employee))
-        return te_entities
 
-    def retrieve_team_employee(self, te_pk: int):
-        team_model = Team.objects.get(pk=te_pk)
-        # todo: complete implementation
+        for te_model in team_employees:
+            team_employees_entities.append(
+                TeamEmployeeEntity(
+                    id=te_model.id,
+                    team=DataConverter.to_team_entity(te_model.team),
+                    employee=DataConverter.to_employee_entity(te_model.employee)
+            ))
+        return team_employees_entities
 
-    def create_team_employee(self, team_pk: int, employee_pk: int):
+    def retrieve_team_employees(self, te_pk: int):
+        team_employee = TeamEmployee.objects.get(pk=te_pk)
+        return TeamEmployeeEntity(
+                    id=team_employee.id,
+                    team=DataConverter.to_team_entity(team_employee.team),
+                    employee=DataConverter.to_employee_entity(team_employee.employee)
+                )
+
+    def save_team_employee(self, team_pk: int, employee_pk: int):
         te_model = TeamEmployee(team_id=team_pk, employee_id=employee_pk)
         te_model.save()
+        print("Saved")
         te_model.refresh_from_db()
         return DataConverter.to_team_employee_entity(te_model)
 
-    def update_team_employee(self, te_entity: TeamEmployeeEntity):
-        pass
-
     def delete_team_employee(self, te_pk: int):
-        pass
+        team_employee = TeamEmployee.objects.get(pk=te_pk)
+        team_employee.delete()
+        return DataConverter.to_team_employee_entity(team_employee)
+
+    def team_employee_exists(self, te_pk):
+        try:
+            team_employee = TeamEmployee.objects.get(pk=te_pk)
+            return DataConverter.to_team_employee_entity(team_employee)
+        except TeamEmployee.DoesNotExist:
+            return None
+
+    def employee_has_more_teams(self, employee_pk):
+        """
+        Check if employee has more than one team.
+        :param employee_pk:
+        :return:
+        """
+        team_employees = TeamEmployee.objects.filter(employee_id=employee_pk)
+        if len(team_employees) > 1:
+            return True
+        else:
+            return False

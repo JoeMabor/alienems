@@ -2,7 +2,6 @@ from domain.usecases.repositories.team_leader_repository import TeamLeaderRepoPo
 from domain.entities.team_leader import TeamLeaderEntity
 from ..models import Team, Employee
 from .helpers import DataConverter
-from django.db.models import Q
 
 
 class TeamLeaderRepoImpl(TeamLeaderRepoPort):

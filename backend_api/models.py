@@ -37,7 +37,7 @@ class Team(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
     # set to null if an employee who is the team leader is deleted before it can be assigned another leader
-    leader = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
+    leader = models.ForeignKey(Employee, related_name="leader", on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
 
@@ -53,7 +53,7 @@ class TeamEmployee(models.Model):
     """
     A model that maps teams employees table containing each team members.
     """
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, related_name="team", on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)

@@ -218,7 +218,7 @@ class TeamLeaderPresenterSerializer(serializers.Serializer):
         return instance
 
 
-class TeamLeaderRequestDataSerializer(serializers.Serializer):
+class TeamLeaderOrEmployeeRequestDataSerializer(serializers.Serializer):
     team_id = serializers.IntegerField()
     employee_id = serializers.IntegerField()
 
@@ -228,7 +228,7 @@ class TeamLeaderRequestDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.TeamLeaderRequestData(**validated_data)
+        return team_data.TeamLeaderOrEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -239,6 +239,56 @@ class TeamLeaderRequestDataSerializer(serializers.Serializer):
         """
         instance.team_id = validated_data.get("team_id", instance.team_id)
         instance.employee_id = validated_data.get("employee_id", instance.employee_id)
+        return instance
+
+
+class PresentTeamEmployeeDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    team = PresentTeamSerializer(serializers.Serializer)
+    employee = PresentEmployeeDataSerializer(serializers.Serializer)
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return team_data.PresentTeamEmployeeData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+        instance.id = validated_data.get("id", instance.id)
+        instance.team = validated_data.get("team", instance.team)
+        instance.employee = validated_data.get("employee", instance.employee)
+        return instance
+
+
+class PresentTeamAllEmployeesDataSerializer(serializers.Serializer):
+    team = PresentTeamSerializer(serializers.Serializer)
+    employees = PresentEmployeeDataSerializer(serializers.Serializer, many=True)
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return team_data.PresentTeamAllEmployeesData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+        instance.team = validated_data.get("team", instance.team)
+        instance.employees = validated_data.get("employees", instance.employees)
         return instance
 
 
