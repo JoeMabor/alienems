@@ -40,12 +40,14 @@ class ManageEmployeesController:
             work_arrangement_entity = self._to_work_arrangement_entity(request_data)
         else:
             work_arrangement_entity = None
-        return self._use_case.create_employee(employee_entity=employee_entity, work_arrangement=work_arrangement_entity)
+        return self._use_case.create_employee(employee_entity=employee_entity,
+                                              team_pk=request_data.team_id,
+                                              work_arrangement=work_arrangement_entity)
 
     def update_employee(self, request_data: UpdateEmployeeMRequestData):
         """
         Update new employee entity in the repository and return TeamEntity
-        :param employee_entity: TeamEntity
+        :param request_data:
         :return: TeamEntity
         """
         return self._use_case.update_employee(request_data)

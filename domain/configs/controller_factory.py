@@ -5,17 +5,19 @@ Module for configuration of django app. Create and inject dependencies
 from domain.usecases.manage_teams_use_case import ManageTeamUseCase
 from domain.usecases.manage_employees_use_case import ManageEmployeeUseCase
 from domain.usecases.team_leaders_use_case import TeamLeadersUseUseCase
+from domain.usecases.team_employees_use_case import TeamEmployeeUSeCase
 # controllers
 from domain.adapters.controllers.manage_teams_controller import ManageTeamController
 from domain.adapters.controllers.manage_employees_controller import ManageEmployeesController
 from domain.adapters.controllers.team_leaders_controller import TeamLeadersController
+from domain.adapters.controllers.team_employees_controller import TeamEmployeeController
+# repositories
 from domain.usecases.repositories.team_repository import TeamRepoPort
 from domain.usecases.repositories.team_employees_repository import TeamEmployeeRepoPort
 from domain.usecases.repositories.team_leader_repository import TeamLeaderRepoPort
 from domain.usecases.repositories.employee_repository import EmployeeRepoPort
 from domain.usecases.repositories.work_arrangement_repository import WorkArrangementRepoPort
 from domain.usecases.repositories.work_time_repository import WorkTimeRepoPort
-
 
 
 class ControllerFactory:
@@ -56,7 +58,8 @@ class ControllerFactory:
             work_arrangement_repo=self._work_arrangement_repo,
             work_time_repo=self._work_time_repo,
             team_employee_repo=self._team_employee_repo,
-            team_leader_repo=self._team_leader_repo
+            team_leader_repo=self._team_leader_repo,
+            team_repo=self._team_repo
         ))
 
     def team_leaders_controller(self):
@@ -67,6 +70,19 @@ class ControllerFactory:
         return TeamLeadersController(
             use_case=TeamLeadersUseUseCase(
                 team_leader_repo=self._team_leader_repo,
+                team_repo=self._team_repo,
+                employee_repo=self._employee_repo
+            )
+        )
+
+    def team_employees_controller(self):
+        """
+        Create team leader controller and inject repositories dependencies
+        :return:
+        """
+        return TeamEmployeeController(
+            use_case=TeamEmployeeUSeCase(
+                team_employee_repo=self._team_employee_repo,
                 team_repo=self._team_repo,
                 employee_repo=self._employee_repo
             )

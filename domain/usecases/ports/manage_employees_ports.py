@@ -27,11 +27,12 @@ class ManageEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def create_employee(self, employee_entity: EmployeeEntity, work_arrangement: WorkArrangementEntity = None):
+    def create_employee(self, employee_entity: EmployeeEntity, team_pk, work_arrangement: WorkArrangementEntity = None):
         """
         Create new employee
         :param employee_entity: EmployeeEntity
         :param work_arrangement: WorkArrangementEntity
+        :param team_pk:
         :return: EmployeeEntity
         """
         pass

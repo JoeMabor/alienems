@@ -11,7 +11,7 @@ class TeamEmployeeRepoPort(ABC):
     """
 
     @abstractmethod
-    def retrieve_all_team_employees(self):
+    def retrieve_all_teams_employees(self):
         """
         For retrieving all instances of tem employee table
         :return:
@@ -19,36 +19,56 @@ class TeamEmployeeRepoPort(ABC):
         pass
 
     @abstractmethod
-    def retrieve_team_employee(self, te_pk:int):
+    def retrieve_team_employees(self, team_pk: int):
         """
         Retrieving team employee instance using primary key (te_pk)
-        :param te_pk: int
+        :param team_pk: int
         :return: TeamEmployeeEntity
         """
         pass
 
     @abstractmethod
-    def create_team_employee(self, te_entity: TeamEmployeeEntity):
+    def save_team_employee(self, team_pk: int, employee_pk: int):
         """
-        :param te_entity: TeamEmployeeEntity
-        :return: TeamEmployeeEntity
-        """
-        pass
 
-    @abstractmethod
-    def update_team_employee(self, te_entity: TeamEmployeeEntity):
-        """
-        Update team employee
-        :param te_entity: TeamEmployeeEntity
+        :param team_pk:
+        :param employee_pk:
         :return:
         """
         pass
 
     @abstractmethod
-    def delete_team_employee(self, te_pk: int):
+    def delete_team_employee(self, te_pk):
         """
         Delete team employee
-        :param te_pk: int
-        :return: TeamEmployeeEntity
+        :param te_pk:
+        :return:
         """
         pass
+
+    @abstractmethod
+    def is_a_member(self, team_pk : int, employee_pk: int):
+        """
+        Check if employee is already a member in a team
+        :param employee_pk:
+        :return:
+        """
+
+    @abstractmethod
+    def team_employee_exists(self, te_pk):
+        """
+        Check if a team employee of a given team employee id exist in repository
+        :param te_pk:
+        :return:
+        """
+        pass
+
+    @abstractmethod
+    def employee_has_more_teams(self, employee_pk):
+        """
+        Check if a team employee of a given team employee id exist in repository
+        :param employee_pk:
+        :return:
+        """
+        pass
+

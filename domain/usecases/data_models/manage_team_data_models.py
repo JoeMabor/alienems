@@ -26,7 +26,6 @@ class PresentTeamRequestData:
         self.created_at = created_at
         self.updated_at = updated_at
         print(F"Team leader in Data model: {leader}")
-        kkk
         self.leader = leader
 
 
@@ -39,12 +38,29 @@ class PresentTeamLeaderRequestData:
         self.team = team
 
 
-class TeamLeaderRequestData:
+class TeamLeaderOrEmployeeRequestData:
     """
-    Data request for assigning  a team leader.
+    Data request for assigning  a team leader, adding and removing team employee
     """
     def __init__(self, team_id, employee_id):
         self.team_id = team_id
         self.employee_id = employee_id
 
 
+class PresentTeamEmployeeData:
+    """
+    Data to present Team Employees
+    """
+    def __init__(self, id: int, team, employee):
+        self.id = id
+        self.team = team
+        self.employee = employee
+
+
+class PresentTeamAllEmployeesData:
+    """
+    Data to present Team Employees
+    """
+    def __init__(self, team, employees: list):
+        self.team = team
+        self.employees = employees

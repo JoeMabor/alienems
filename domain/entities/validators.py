@@ -26,6 +26,33 @@ class EmployeeIsNotALeader(Exception):
         self.message = message
 
 
+class EmployeeIsATeamMember(Exception):
+    """
+    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    """
+    def __init__(self, message="Employee of the given id already a team team member"):
+        super(EmployeeIsATeamMember, self).__init__(message)
+        self.message = message
+
+
+class EmployeeHasOneTeam(Exception):
+    """
+    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    """
+    def __init__(self, message="Can not remove team employee when employee is a member of one team only"):
+        super(EmployeeHasOneTeam, self).__init__(message)
+        self.message = message
+
+
+class EmployeeNotATeamMember(Exception):
+    """
+    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    """
+    def __init__(self, message="Employee is not a member of the given team"):
+        super(EmployeeNotATeamMember, self).__init__(message)
+        self.message = message
+
+
 class ObjectEntityDoesNotExist(Exception):
     """
     Exception thrown if a user attempt to assign a leader to a team that already has a leader

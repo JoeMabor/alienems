@@ -1,11 +1,11 @@
 """
-Interfaces/ports for manage team use cases. These interfaces enforce Interface inversion Principle which make
+Interfaces/ports for manage team leaders use cases. These interfaces enforce Interface inversion Principle which make
 use case controllers that depend on them stable
 """
 
 from abc import ABC, abstractmethod
 from ...entities.team_leader import TeamLeaderEntity
-from ..data_models.manage_team_data_models import TeamLeaderRequestData
+from ..data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
 
 
 class TeamLeaderUseCasePort(ABC):
@@ -28,7 +28,7 @@ class TeamLeaderUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def assign_team_leader(self, request_data: TeamLeaderRequestData):
+    def assign_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         """
          Assign team leader to a team that doesn't have a team leader
         :param request_data:
@@ -37,5 +37,5 @@ class TeamLeaderUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def change_team_leader(self, request_data: TeamLeaderRequestData):
+    def change_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         pass

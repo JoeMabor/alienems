@@ -4,7 +4,7 @@ TeamLeaderUseCase and the view.
 """
 from ...usecases.ports.team_leaders_port import TeamLeaderUseCasePort
 from ...entities.team_leader import TeamLeaderEntity
-from ...usecases.data_models.manage_team_data_models import TeamLeaderRequestData
+from ...usecases.data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
 
 
 class TeamLeadersController:
@@ -26,7 +26,7 @@ class TeamLeadersController:
         """
         return self._use_case.retrieve_team_leader(leader_pk)
 
-    def change_team_leader(self, request_data: TeamLeaderRequestData):
+    def change_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         """
         map change team leader request to change team leader function in team use case
         :param request_data:
@@ -34,7 +34,7 @@ class TeamLeadersController:
         """
         return self._use_case.change_team_leader(request_data)
 
-    def assign_team_leader(self, request_data: TeamLeaderRequestData):
+    def assign_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
         """
         map request to assign assign a leader to a team
         :param request_data:
