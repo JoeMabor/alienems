@@ -52,5 +52,13 @@ class EmployeeRepoPort(ABC):
         """
         pass
 
+    @abstractmethod
+    def is_employee_id_unique(self, employee_id):
+        """
+        Check if an employee ID is unique. I.E Specific ID is already in the repository
+        :param employee_id:
+        :return:
+        """
+
 
 

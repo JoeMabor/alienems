@@ -64,3 +64,19 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
             return employee_entity
         except Employee.DoesNotExist:
             raise Employee.DoesNotExist
+
+    def is_employee_id_unique(self, employee_id):
+        """
+        Check if employee ID is already used.
+        :param employee_id:
+        :return:
+        """
+
+        # there is employee with a given employee ID already
+        employees = Employee.objects.filter(employee_id=employee_id).count()
+        if employees > 0:
+
+            return False
+        else:
+            # no employee with the given ID in the repository, so it is unique
+            return True

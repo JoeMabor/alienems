@@ -2,12 +2,12 @@
 Interface for work times repository.
 """
 from abc import ABC,  abstractmethod
+from ...entities.work_time import WorkTimeEntity
 
 
 class WorkTimeRepoPort(ABC):
     """
-    Interface class for managing work leader. Work time is added when a employee or work arrangement is added.
-    It can be changed when an employee work arrangement or type is changed
+    Interface class for managing work leader
     """
 
     @abstractmethod
@@ -26,3 +26,12 @@ class WorkTimeRepoPort(ABC):
         :return: TeamLeaderEntity
         """
         pass
+
+    @abstractmethod
+    def save_work_time(self, wt_entity: WorkTimeEntity):
+        """
+        :param wt_entity: WorkArrangementEntity
+        :return: WorkArrangementEntity
+        """
+        pass
+

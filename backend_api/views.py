@@ -93,7 +93,8 @@ class ManageEmployeesView(viewsets.ViewSet):
                 new_employee = self.controller.create_employee(request_data=request_data)
                 serializer = data_serializers.PresentEmployeeDataSerializer(new_employee)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except (domain_exceptions.WorkArrangementPercentageOutOfRange,
+            except (domain_exceptions.EmployeeIDIsNotUnique,
+                    domain_exceptions.WorkArrangementPercentageOutOfRange,
                     domain_exceptions.TeamHasALeader,
                     domain_exceptions.WorkArrangementPercentageNull
                     ) as e:
@@ -223,7 +224,7 @@ class TeamEmployeeView(viewsets.ViewSet):
             deleted_team_employee = self.controller.remove_team_employee(pk)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except (domain_exceptions.ObjectEntityDoesNotExist,
-            domain_exceptions.EmployeeHasOneTeam
+                domain_exceptions.EmployeeHasOneTeam
                 ) as e:
             return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
 

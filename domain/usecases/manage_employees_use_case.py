@@ -14,6 +14,7 @@ from ..entities.work_arrangment import WorkArrangementEntity
 from ..entities.work_time import WorkTimeEntity
 from ..entities.validators import WorkArrangementPercentageNull
 from ..entities.validators import ObjectEntityDoesNotExist
+from ..entities.validators import EmployeeIDIsNotUnique
 from .data_models.manage_employees_data_models import UpdateEmployeeMRequestData
 import datetime
 
@@ -61,27 +62,32 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         :param team_pk:
         :return:
         """
-        # employee = self._employee_repo.save(employee_entity)
-        if employee_entity.is_part_time():
-            if work_arrangement is None:
-                raise WorkArrangementPercentageNull()
-            new_employee = self._add_part_time_employee(employee_entity=employee_entity, work_arrangement=work_arrangement)
-        else:
-            new_employee = self._add_full_time_employee(employee_entity)
-        team = self._team_repo.team_exists(team_pk)
-        if team:
-            # check if team exist and team employee
-            self._team_employee_repo.save_team_employee(team_pk=team_pk, employee_pk=new_employee.id)
-            # check if team has a leader
-            if self._team_repo.has_a_leader(team_pk):
-                # team has a leader already
-                pass
+        # check if new employee DI exist in the database
+        if self._employee_repo.is_employee_id_unique(employee_id=employee_entity.employee_id):
+
+            if employee_entity.is_part_time():
+                if work_arrangement is None:
+                    raise WorkArrangementPercentageNull()
+                new_employee = self._add_part_time_employee(employee_entity=employee_entity,
+                                                            work_arrangement=work_arrangement)
             else:
-                # no team leader, make new team member a leader
-                tl_entity = self._team_leader_repo.save_team_leader(team_pk=team_pk,
-                                                                    employee_pk=new_employee.id)
-                new_employee = self._employee_repo.save(employee_entity=new_employee)
-        return new_employee
+                new_employee = self._add_full_time_employee(employee_entity)
+            team = self._team_repo.team_exists(team_pk)
+            if team:
+                # check if team exist and team employee
+                self._team_employee_repo.save_team_employee(team_pk=team_pk, employee_pk=new_employee.id)
+                # check if team has a leader
+                if self._team_repo.has_a_leader(team_pk):
+                    # team has a leader already
+                    pass
+                else:
+                    # no team leader, make new team member a leader
+                    tl_entity = self._team_leader_repo.save_team_leader(team_pk=team_pk,
+                                                                        employee_pk=new_employee.id)
+                    new_employee = self._employee_repo.save(employee_entity=new_employee)
+            return new_employee
+        else:
+            raise EmployeeIDIsNotUnique()
 
     def delete_employee(self, employee_pk: int):
         if self._employee_repo.employee_exists(employee_pk):

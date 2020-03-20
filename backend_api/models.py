@@ -17,7 +17,7 @@ class Employee(models.Model):
         (2, "Part time")
     )
     name = models.CharField(max_length=50)
-    employee_id = models.CharField(max_length=5)
+    employee_id = models.CharField(max_length=5, unique=True)
     # assume an employee can be paid until 1000.xx(max length=7) per hour in the Alien company
     hourly_rate = models.DecimalField(max_digits=7, decimal_places=2)
     is_a_leader = models.BooleanField(default=False)

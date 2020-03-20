@@ -114,3 +114,9 @@ class TeamDoesNotExist(Exception):
     def __init__(self, message="Team with the given id does not exist"):
         super(TeamDoesNotExist, self).__init__(message)
         self.message = message
+
+
+class EmployeeIDIsNotUnique(Exception):
+    def __init__(self, message="New  employee ID  already exist"):
+        super(EmployeeIDIsNotUnique, self).__init__(message)
+        self.message = message

@@ -1,6 +1,5 @@
 """
-Interfaces/ports for manage team use cases. These interfaces enforce Interface inversion Principle which make
-use case controllers that depend on them stable
+Interfaces/ports for manage team use cases. These interfaces enforce Dependency Inversion Principle
 """
 
 from abc import ABC

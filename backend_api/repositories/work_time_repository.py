@@ -25,3 +25,4 @@ class WorkTimeRepoImpl(WorkTimeRepoPort):
         wt_model.save()
         wt_model.refresh_from_db()
         return DataConverter.to_work_time_entity(wt_model)
+
