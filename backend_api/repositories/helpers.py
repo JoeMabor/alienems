@@ -12,20 +12,48 @@ from ..models import TeamEmployee
 from ..models import TeamLeader
 
 
-class DataConverter:
+# helper methods
+def get_team_leader(team_pk):
+
+    try:
+        team_leader = TeamLeader.objects.get(team_id=team_pk)
+        return team_leader.leader
+    except TeamLeader.DoesNotExist:
+        return None
+
+
+def employee_is_a_leader(employee_pk):
+    """
+    Check if an employee is a leader of any team
+    :param employee_pk:
+    :return:
+    """
+    teams = TeamLeader.objects.filter(leader_id=employee_pk)
+    # if an employee is a leader of one or more teams than return True otherwise False
+    if len(teams) >= 1:
+        return True
+    else:
+        return False
+
+
+# data converters
+class DataConverters:
 
     @staticmethod
     def to_team_entity(team_obj: Team):
-
+        leader = get_team_leader(team_pk=team_obj.id)
+        if leader:
+            leader_entity = DataConverters.to_employee_entity(leader)
+        else:
+            leader_entity = None
         team_entity = TeamEntity(id=team_obj.id,
                                  name=team_obj.name,
                                  description=team_obj.description,
                                  created_at=team_obj.created_at,
-                                 updated_at=team_obj.updated_at
+                                 updated_at=team_obj.updated_at,
+                                 leader=leader_entity
                                  )
-        if team_obj.leader:
-            # team has a leader
-            team_entity.leader = DataConverter.to_employee_entity(team_obj.leader)
+
         return team_entity
 
     @staticmethod
@@ -36,9 +64,9 @@ class DataConverter:
             name=team_entity.name,
             description=team_entity.description
         )
-        if team_entity.has_a_leader():
+        if team_entity.has_a_leader:
             # check if a team has a leader
-            team_model.leader = DataConverter.from_employee_entity(team_entity.leader)
+            team_model.leader = DataConverters.from_employee_entity(team_entity.leader)
         return team_model
 
     @staticmethod
@@ -81,8 +109,10 @@ class DataConverter:
     @staticmethod
     def to_work_arrangement_entity(wa_model: WorkArrangement):
         return WorkArrangementEntity(
+            id=wa_model.id,
             percent=wa_model.percent,
-            employee=DataConverter.to_employee_entity(wa_model.employee)
+            employee=DataConverters.to_employee_entity(wa_model.employee),
+            team=DataConverters.to_team_entity(wa_model.team)
 
         )
 
@@ -91,37 +121,24 @@ class DataConverter:
         return WorkTimeEntity(
             id=wt_model.id,
             hours=wt_model.hours,
-            employee=DataConverter.to_employee_entity(wt_model.employee)
+            employee=DataConverters.to_employee_entity(wt_model.employee),
+            work_arrangement=DataConverters.to_work_arrangement_entity(wt_model.work_arrangement)
         )
 
     @staticmethod
     def to_team_leader_entity(team_leader: TeamLeader):
         return TeamLeaderEntity(
             id=team_leader.id,
-            leader=DataConverter.to_employee_entity(team_leader.leader),
-            team=DataConverter.to_team_entity(team_leader.team)
+            leader=DataConverters.to_employee_entity(team_leader.leader),
+            team=DataConverters.to_team_entity(team_leader.team)
         )
 
     @staticmethod
     def to_team_employee_entity(te_model: TeamEmployee):
         return TeamEmployeeEntity(
             id=te_model.id,
-            team=DataConverter.to_team_entity(te_model.team),
-            employee=DataConverter.to_employee_entity(te_model.employee)
+            team=DataConverters.to_team_entity(te_model.team),
+            employee=DataConverters.to_employee_entity(te_model.employee)
         )
-
-
-def employee_is_a_leader(employee_pk):
-    """
-    Check if an employee is a leader of any team
-    :param employee_pk:
-    :return:
-    """
-    teams = TeamLeader.objects.filter(leader_id=employee_pk)
-    # if an employee is a leader of one or more teams than return True otherwise False
-    if len(teams) >= 1:
-        return True
-    else:
-        return False
 
 

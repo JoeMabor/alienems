@@ -75,6 +75,21 @@ class TeamEmployee(models.Model):
         return F"{self.employee} -> {self.team}"
 
 
+class WorkArrangement(models.Model):
+    """
+    A model that maps to employee work arrangements table. Part time employees can have multiple work arrangements (job)
+    but only if their total work time is equal or less than 40. Max percentage is 100%. Work arrangement is used
+    for calculating employee work time(on creation/update) and report purposes.
+    """
+    percent = models.PositiveIntegerField()
+    remarks = models.TextField(null=True, blank=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return F"{self.employee} -> {self.percent}"
+
+
 class WorkTimeManager(models.Manager):
 
     def get_employee_work_time(self, employee_pk):
@@ -92,23 +107,8 @@ class WorkTime(models.Model):
     """
     hours = models.PositiveIntegerField()
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    work_arrangement = models.ForeignKey(WorkArrangement, on_delete=models.CASCADE)
     objects = WorkTimeManager()
 
     def __str__(self):
         return F"{self.employee} -> {self.hours}"
-
-
-class WorkArrangement(models.Model):
-    """
-    A model that maps to employee work arrangements table. Part time employees can have multiple work arrangements (job)
-    but only if their total work time is equal or less than 40. Max percentage is 100%. Work arrangement is used
-    for calculating employee work time(on creation/update) and report purposes.
-    """
-    percent = models.PositiveIntegerField()
-    remarks = models.TextField(null=True, blank=True)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return F"{self.employee} -> {self.percent}"
-
-

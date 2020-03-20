@@ -29,7 +29,7 @@ class TeamRepoPort(ABC):
         """
         Check if tean is in the repository
         :param team_pk: team primary key id
-        :return: True or False
+        :return:
         """
         pass
 

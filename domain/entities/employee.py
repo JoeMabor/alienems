@@ -115,7 +115,7 @@ class EmployeeEntity:
             raise NotEmployeeEntityType()
 
     def calculate_pay(self):
-        if self._total_work_hours >0 and self._total_work_hours <= 40:
+        if self._total_work_hours >=0 and self._total_work_hours <= 40:
             # calculate employee pay
             pay = self._total_work_hours * self._hourly_rate
             if self._is_a_leader:

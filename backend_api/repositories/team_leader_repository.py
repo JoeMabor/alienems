@@ -1,7 +1,7 @@
 from domain.usecases.repositories.team_leader_repository import TeamLeaderRepoPort
 from domain.entities.team_leader import TeamLeaderEntity
 from ..models import TeamLeader
-from .helpers import DataConverter
+from .helpers import DataConverters
 
 
 class TeamLeaderRepoImpl(TeamLeaderRepoPort):
@@ -18,7 +18,7 @@ class TeamLeaderRepoImpl(TeamLeaderRepoPort):
         team_leaders = TeamLeader.objects.all()
         leader_entities = []
         for team_leader in team_leaders:
-            leader_entities.append(DataConverter.to_team_leader_entity(team_leader))
+            leader_entities.append(DataConverters.to_team_leader_entity(team_leader))
         return leader_entities
 
     def retrieve_team_leader(self, tl_pk: int):
@@ -29,7 +29,7 @@ class TeamLeaderRepoImpl(TeamLeaderRepoPort):
         """
         try:
             team_leader = TeamLeader.objects.get(pk=tl_pk)
-            return DataConverter.to_team_leader_entity(team_leader)
+            return DataConverters.to_team_leader_entity(team_leader)
         except TeamLeader.DoesNotExist:
             raise TeamLeader.DoesNotExist
 
@@ -37,4 +37,6 @@ class TeamLeaderRepoImpl(TeamLeaderRepoPort):
         team_leader = TeamLeader(leader_id=employee_pk, team_id=team_pk)
         team_leader.save()
         team_leader.refresh_from_db()
-        return DataConverter.to_team_leader_entity(team_leader)
+        return DataConverters.to_team_leader_entity(team_leader)
+
+

@@ -2,7 +2,7 @@ from domain.usecases.repositories.employee_repository import EmployeeRepoPort
 from domain.entities.employee import EmployeeEntity
 from backend_api.models import Employee, Team
 from backend_api.models import WorkTime
-from .helpers import DataConverter
+from .helpers import DataConverters
 
 
 class EmployeeRepoPortImp(EmployeeRepoPort):
@@ -18,7 +18,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
         employee_objs = Employee.objects.all()
         employee_models = []
         for employee in employee_objs:
-            employee_models.append(DataConverter.to_employee_entity(employee))
+            employee_models.append(DataConverters.to_employee_entity(employee))
         return employee_models
 
     def retrieve_by_id(self, employee_pk):
@@ -29,7 +29,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
         """
         try:
             employee_obj = Employee.objects.get(pk=employee_pk)
-            return DataConverter.to_employee_entity(employee_obj)
+            return DataConverters.to_employee_entity(employee_obj)
         except Employee.DoesNotExist:
             raise Employee.DoesNotExist
 
@@ -39,10 +39,10 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
         :param employee_entity:
         :return:
         """
-        employee_model = DataConverter.from_employee_entity(employee_entity)
+        employee_model = DataConverters.from_employee_entity(employee_entity)
         employee_model.save()
         employee_model.refresh_from_db()
-        return DataConverter.to_employee_entity(employee_model)
+        return DataConverters.to_employee_entity(employee_model)
 
     def employee_exists(self, employee_pk):
         """
@@ -52,7 +52,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
         """
         try:
             employee = Employee.objects.get(pk=employee_pk)
-            return DataConverter.to_employee_entity(employee)
+            return DataConverters.to_employee_entity(employee)
         except Employee.DoesNotExist:
             return None
 
@@ -60,7 +60,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
         try:
             employee = Employee.objects.get(pk=employee_pk)
             employee.delete()
-            employee_entity = DataConverter.to_employee_entity(employee)
+            employee_entity = DataConverters.to_employee_entity(employee)
             return employee_entity
         except Employee.DoesNotExist:
             raise Employee.DoesNotExist

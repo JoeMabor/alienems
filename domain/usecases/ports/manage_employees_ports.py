@@ -3,7 +3,7 @@ Contain Interface class for that defines high level business rules of manage emp
 """
 from ...entities.employee import EmployeeEntity
 from ...entities.work_arrangment import WorkArrangementEntity
-from ..data_models.manage_employees_data_models import UpdateEmployeeMRequestData
+from ..data_models.manage_employees_data_models import UpdateEmployeeMRequestData, CreateEmployeeRequestData
 from abc import ABC,  abstractmethod
 
 
@@ -27,12 +27,10 @@ class ManageEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def create_employee(self, employee_entity: EmployeeEntity, team_pk, work_arrangement: WorkArrangementEntity = None):
+    def create_employee(self, request_data: CreateEmployeeRequestData):
         """
         Create new employee
-        :param employee_entity: EmployeeEntity
-        :param work_arrangement: WorkArrangementEntity
-        :param team_pk:
+        :param request_data:
         :return: EmployeeEntity
         """
         pass

@@ -7,12 +7,14 @@ from domain.usecases.manage_employees_use_case import ManageEmployeeUseCase
 from domain.usecases.team_leaders_use_case import TeamLeadersUseUseCase
 from domain.usecases.team_employees_use_case import TeamEmployeeUSeCase
 from domain.usecases.work_times_use_case import WorkTimeUseCase
+from domain.usecases.manage_work_arrangement_use_case import WorkArrangementUseCase
 # controllers
 from domain.adapters.controllers.manage_teams_controller import ManageTeamController
 from domain.adapters.controllers.manage_employees_controller import ManageEmployeesController
 from domain.adapters.controllers.team_leaders_controller import TeamLeadersController
 from domain.adapters.controllers.team_employees_controller import TeamEmployeeController
 from domain.adapters.controllers.work_time_controller import WorkTimeController
+from domain.adapters.controllers.work_arrangements_controller import WorkArrangementsController
 # repositories
 from domain.usecases.repositories.team_repository import TeamRepoPort
 from domain.usecases.repositories.team_employees_repository import TeamEmployeeRepoPort
@@ -94,6 +96,18 @@ class ControllerFactory:
         return WorkTimeController(
             use_case=WorkTimeUseCase(
                 work_time_repo=self._work_time_repo
+            )
+        )
+
+    def work_arrangements_controller(self):
+        return WorkArrangementsController(
+            use_case=WorkArrangementUseCase(
+                work_arrangement_repo=self._work_arrangement_repo,
+                work_time_repo=self._work_time_repo,
+                employee_repo=self._employee_repo,
+                team_repo=self._team_repo,
+                team_employee_repo=self._team_employee_repo,
+                team_leader_repo=self._team_leader_repo
             )
         )
 

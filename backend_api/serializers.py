@@ -8,6 +8,7 @@ from rest_framework import serializers
 import domain.usecases.data_models.manage_employees_data_models as employee_data
 import domain.usecases.data_models.manage_team_data_models as team_data
 from domain.entities.team import TeamEntity
+from domain.entities.work_arrangment import WorkArrangementEntity
 
 
 class PresentEmployeeDataSerializer(serializers.Serializer):
@@ -268,10 +269,100 @@ class PresentTeamEmployeeDataSerializer(serializers.Serializer):
         return instance
 
 
+class PresentWorkArrangementsDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    percent = serializers.IntegerField()
+    remarks = serializers.CharField(allow_null=True, allow_blank=True)
+    employee = PresentEmployeeDataSerializer(serializers.Serializer)
+    team = PresentTeamSerializer(serializers.Serializer)
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return WorkArrangementEntity(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+        instance.id = validated_data.get("id", instance.id)
+        instance.percent = validated_data.get("percent", instance.percent)
+        instance.remarks = validated_data.get("remarks", instance.remarks)
+        instance.employee = validated_data.get("employee", instance.employees)
+        instance.team = validated_data.get("team", instance.team)
+
+
+class CreateWorkArrangementSerializer(serializers.Serializer):
+    percent = serializers.IntegerField()
+    employee_id = serializers.IntegerField()
+    remarks = serializers.CharField(allow_null=True, required=False)
+    team_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return employee_data.CreateWorkArrangementData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+
+        instance.percent = validated_data.get("percent", instance.percent)
+        instance.employee_id = validated_data.get("employee_id", instance.employee_id)
+        instance.remarks = validated_data.get("remarks", instance.remarks)
+        instance.team_id = validated_data.get("team_id", instance.team_id)
+        return instance
+
+
+class UpdateWorkArrangementSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    percent = serializers.IntegerField()
+    employee_id = serializers.IntegerField()
+    remarks = serializers.CharField(allow_null=True, required=False)
+    team_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return employee_data.UpdateWorkArrangementData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+
+        instance.id = validated_data.get("id", instance.id)
+        instance.percent = validated_data.get("percent", instance.percent)
+        instance.employee_id = validated_data.get("employee_id", instance.employee_id)
+        instance.remarks = validated_data.get("remarks", instance.remarks)
+        instance.team_id = validated_data.get("team_id", instance.team_id)
+        return instance
+
+
 class PresentWorkTimeDataSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     hours = serializers.IntegerField()
-    employee = PresentEmployeeDataSerializer(serializers.Serializer)
+    # employee = PresentEmployeeDataSerializer(serializers.Serializer)
+    work_arrangement = PresentWorkArrangementsDataSerializer(serializers.Serializer)
 
     def create(self, validated_data):
         """
@@ -290,6 +381,5 @@ class PresentWorkTimeDataSerializer(serializers.Serializer):
         """
         instance.id = validated_data.get("id", instance.id)
         instance.hours = validated_data.get("hours", instance.hours)
-        instance.employee = validated_data.get("employee", instance.employees)
-
-
+        instance.work_arrangement = validated_data.get("work_arrangement", instance.work_arrangement)
+        # instance.employee = validated_data.get("employee", instance.employees)

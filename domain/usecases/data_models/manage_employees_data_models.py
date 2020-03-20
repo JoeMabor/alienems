@@ -29,14 +29,6 @@ class EmployeePresenterData:
         self.pay = pay
 
 
-class CreateWorkArrangementData:
-    """
-    Data model for create new work arrangement
-    """
-    def __init__(self, percentage):
-        pass
-
-
 class CreateEmployeeRequestData:
     """
     Data model for creating new employees
@@ -84,6 +76,25 @@ class PresentWorkTimeData:
         self.employee = employee
 
 
+class CreateWorkArrangementData:
+    """
+    Data model for create new work arrangement
+    """
+    def __init__(self, percent, employee_id, team_id, remarks=None):
+        self.percent = percent
+        self.remarks = remarks
+        self.employee_id = employee_id
+        self.team_id = team_id
 
 
+class UpdateWorkArrangementData:
+    """
+    Data model for create new work arrangement
+    """
+    def __init__(self, id, percent, employee_id, team_id, remarks=None):
+        self.id = id
+        self.percent = percent
+        self.remarks = remarks
+        self.employee_id = employee_id
+        self.team_id = team_id
 

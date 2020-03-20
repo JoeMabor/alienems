@@ -2,7 +2,7 @@ from domain.usecases.repositories.team_employees_repository import TeamEmployeeR
 from domain.entities.team_employee import TeamEmployeeEntity
 from ..models import TeamEmployee
 from ..models import Team
-from .helpers import DataConverter
+from .helpers import DataConverters
 from django.db.models import Q
 
 
@@ -30,8 +30,8 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
             team_employees_entities.append(
                 TeamEmployeeEntity(
                     id=te_model.id,
-                    team=DataConverter.to_team_entity(te_model.team),
-                    employee=DataConverter.to_employee_entity(te_model.employee)
+                    team=DataConverters.to_team_entity(te_model.team),
+                    employee=DataConverters.to_employee_entity(te_model.employee)
             ))
         return team_employees_entities
 
@@ -39,8 +39,8 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
         team_employee = TeamEmployee.objects.get(pk=te_pk)
         return TeamEmployeeEntity(
                     id=team_employee.id,
-                    team=DataConverter.to_team_entity(team_employee.team),
-                    employee=DataConverter.to_employee_entity(team_employee.employee)
+                    team=DataConverters.to_team_entity(team_employee.team),
+                    employee=DataConverters.to_employee_entity(team_employee.employee)
                 )
 
     def save_team_employee(self, team_pk: int, employee_pk: int):
@@ -48,17 +48,17 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
         te_model.save()
         print("Saved")
         te_model.refresh_from_db()
-        return DataConverter.to_team_employee_entity(te_model)
+        return DataConverters.to_team_employee_entity(te_model)
 
     def delete_team_employee(self, te_pk: int):
         team_employee = TeamEmployee.objects.get(pk=te_pk)
         team_employee.delete()
-        return DataConverter.to_team_employee_entity(team_employee)
+        return DataConverters.to_team_employee_entity(team_employee)
 
     def team_employee_exists(self, te_pk):
         try:
             team_employee = TeamEmployee.objects.get(pk=te_pk)
-            return DataConverter.to_team_employee_entity(team_employee)
+            return DataConverters.to_team_employee_entity(team_employee)
         except TeamEmployee.DoesNotExist:
             return None
 

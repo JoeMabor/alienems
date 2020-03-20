@@ -255,6 +255,77 @@ class WorkTimeView(viewsets.ViewSet):
             return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
 
 
+class WorkArrangementsView(viewsets.ViewSet):
+    # manage team controller
+    controller = CONTROLLERS.work_arrangements_controller()
+
+    def get_work_arrangement_object(self, pk):
+        try:
+            return self.controller.view_work_arrangement(pk)
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def list(self, request):
+        teams = self.controller.view_all_work_arrangements()
+        serializer = data_serializers.PresentWorkArrangementsDataSerializer(teams, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        try:
+            team_employee = self.get_work_arrangement_object(pk)
+            serializer = data_serializers.PresentWorkArrangementsDataSerializer(team_employee)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except (
+                domain_exceptions.TeamDoesNotExist
+        )as e:
+            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+
+    def create(self, request):
+        serializer = data_serializers.CreateWorkArrangementSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            request_data = serializer.save()
+            try:
+                work_arrangement = self.controller.add_work_arrangement(request_data=request_data)
+                serializer = data_serializers.PresentWorkArrangementsDataSerializer(work_arrangement)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except (
+                    domain_exceptions.EmployeeDoesNotExist,
+                    domain_exceptions.TeamDoesNotExist,
+                    domain_exceptions.MultipleWorksForFullTimeEmployee,
+                    domain_exceptions.MultipleWorkArrangementInOneTeam,
+                    domain_exceptions.Max40HoursExceeded
+                    )as e:
+                return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk):
+        serializer = data_serializers.UpdateWorkArrangementSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            request_data = serializer.save()
+            try:
+                new_team_entity = self.controller.update_work_arrangement(request_data=request_data)
+                serializer = data_serializers.PresentWorkArrangementsDataSerializer(new_team_entity)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except (
+                    domain_exceptions.ObjectEntityDoesNotExist,
+                    domain_exceptions.MultipleWorkArrangementInOneTeam,
+                    domain_exceptions.EmployeeDoesNotExist,
+                    domain_exceptions.Max40HoursExceeded
+            )as e:
+                return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        try:
+            deleted_team_employee = self.controller.remove_work_arrangement(pk)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except (domain_exceptions.ObjectEntityDoesNotExist,
+                domain_exceptions.EmployeeHasOneTeam
+                ) as e:
+            return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

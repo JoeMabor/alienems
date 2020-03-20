@@ -120,3 +120,21 @@ class EmployeeIDIsNotUnique(Exception):
     def __init__(self, message="New  employee ID  already exist"):
         super(EmployeeIDIsNotUnique, self).__init__(message)
         self.message = message
+
+
+class MultipleWorksForFullTimeEmployee(Exception):
+    def __init__(self, message="Employee is full time. Only part time employees can have multiple work arrangements"):
+        super(MultipleWorksForFullTimeEmployee, self).__init__(message)
+        self.message = message
+
+
+class MultipleWorkArrangementInOneTeam(Exception):
+    def __init__(self, message="Employee can not have multiple work arrangement in one team"):
+        super(MultipleWorkArrangementInOneTeam, self).__init__(message)
+        self.message = message
+
+
+class Max40HoursExceeded(Exception):
+    def __init__(self, message="Employee work arrangement percent can exceed 40 max work hours"):
+        super(Max40HoursExceeded, self).__init__(message)
+        self.message = message

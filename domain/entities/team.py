@@ -13,7 +13,7 @@ class TeamEntity:
                  description: str,
                  id=None,
                  leader: EmployeeEntity = None,
-                 created_at: datetime.datetime =None,
+                 created_at: datetime.datetime = None,
                  updated_at: datetime.datetime = None
                  ):
         self._id = id
@@ -68,6 +68,7 @@ class TeamEntity:
     def leader(self, leader):
         self._leader = leader
 
+    @property
     def has_a_leader(self):
         """
         Check if a team has a leader

@@ -1,7 +1,7 @@
 from domain.usecases.repositories.team_repository import TeamRepoPort
 from domain.entities.team import TeamEntity
 from backend_api.models import Team, TeamLeader
-from .helpers import DataConverter
+from .helpers import DataConverters
 
 
 class TeamRepoPortImp(TeamRepoPort):
@@ -12,8 +12,10 @@ class TeamRepoPortImp(TeamRepoPort):
     def retrieve_all(self):
         team_objects = Team.objects.all()
         team_models = []
+
         for team in team_objects:
-            team_models.append(DataConverter.to_team_entity(team))
+
+            team_models.append(DataConverters.to_team_entity(team))
         return team_models
 
     def retrieve_by_id(self, team_pk):
@@ -21,14 +23,14 @@ class TeamRepoPortImp(TeamRepoPort):
             team_obj = Team.objects.get(pk=team_pk)
         except Team.DoesNotExist:
             raise Team.DoesNotExist
-        return DataConverter.to_team_entity(team_obj)
+        return DataConverters.to_team_entity(team_obj)
 
     def save(self, team_entity: TeamEntity):
-        team_model = DataConverter.from_team_entity(team_entity)
+        team_model = DataConverters.from_team_entity(team_entity)
         print(F"Team: {team_model.created_at}")
         team_model.save()
         team_model.refresh_from_db()
-        new_team_entity = DataConverter.to_team_entity(team_model)
+        new_team_entity = DataConverters.to_team_entity(team_model)
         print(F"New team entity: {new_team_entity.name}")
         return new_team_entity
 
@@ -36,7 +38,7 @@ class TeamRepoPortImp(TeamRepoPort):
         try:
             team = Team.objects.get(pk=team_pk)
             team.delete()
-            team_entity = DataConverter.to_team_entity(team)
+            team_entity = DataConverters.to_team_entity(team)
             return team_entity
         except Team.DoesNotExist:
             raise Team.DoesNotExist
@@ -44,7 +46,7 @@ class TeamRepoPortImp(TeamRepoPort):
     def team_exists(self, team_pk):
         try:
             team_obj = Team.objects.get(pk=team_pk)
-            return DataConverter.to_team_entity(team_obj)
+            return DataConverters.to_team_entity(team_obj)
         except Team.DoesNotExist:
             return None
 
@@ -54,3 +56,5 @@ class TeamRepoPortImp(TeamRepoPort):
             return True
         except TeamLeader.DoesNotExist:
             return False
+
+

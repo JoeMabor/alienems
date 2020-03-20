@@ -35,3 +35,12 @@ class WorkTimeRepoPort(ABC):
         """
         pass
 
+    @abstractmethod
+    def retrieve_by_work_arrangement_pk(self, work_arrangement_pk):
+        """
+        get work time of particular work arrangement
+        :param work_arrangement_pk:
+        :return:
+        """
+        pass
+

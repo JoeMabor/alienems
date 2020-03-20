@@ -2,6 +2,7 @@ from .employee import EmployeeEntity
 from domain.entities.validators import WorkArrangementPercentageOutOfRange
 from domain.entities.validators import WorkArrangementPercentageNull
 from .employee import EmployeeEntity
+from .team import TeamEntity
 from domain.entities.validators import NotEmployeeEntityType
 from domain.entities.validators import EmployeeIsNull
 
@@ -10,13 +11,14 @@ class WorkArrangementEntity:
     """
     Employee work time entity
     """
-    def __init__(self, percent: int, id: int = None,  employee: EmployeeEntity = None,  remarks: str = None):
+    def __init__(self, percent: int, team: TeamEntity, id: int = None,  employee: EmployeeEntity = None,  remarks: str = None):
         self._id = id
         if percent is None:
             raise WorkArrangementPercentageNull()
         self._percent = percent
         self._employee = employee
         self._remarks = remarks
+        self._team = team
 
     @property
     def id(self):
@@ -41,14 +43,23 @@ class WorkArrangementEntity:
         self._employee = employee
 
     @property
+    def team(self):
+        return self._team
+
+    @property
     def remarks(self):
         return self._remarks
 
     def validate_percentage(self, percentage: int):
-        if percentage > 0 and percentage < 100:
+        if percentage > 0 and percentage <= 100:
             return True
         else:
             return False
+
+    @staticmethod
+    def calculate_work_time_hours(percentage):
+        # part time employees work is work arrangement percentage of 40 hours
+        return int((percentage/100) * 40)
 
     def __str__(self):
         return F"{self._percent}"
