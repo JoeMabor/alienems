@@ -48,11 +48,25 @@ class TestTeamEntity(unittest.TestCase):
         self.assertEqual(self.team_1.name, "Greys")
         self.assertEqual(self.team_2.name, "Flatwoods monster")
 
+    def test_name_setter(self):
+        """Test name setter setts correct values"""
+        self.team_1.name = "Reptilians"
+        self.assertEqual(self.team_1.name, "Reptilians")
+        self.team_2.name = "Nordic"
+        self.assertEqual(self.team_2.name, "Nordic")
+
     def test_description(self):
         """Test that description gives correct values"""
         self.assertEqual(self.team_1.description,
                          "Grey-skinned humanoids, usually 3–4 feet tall, hairless, with large heads.")
         self.assertEqual(self.team_2.description, "Tall humanoid with a spade-shaped head.")
+
+    def test_description_setter(self):
+        """Test that description setter setter correct values"""
+        self.team_1.description = "Tall, scaly humanoids."
+        self.assertEqual(self.team_1.description, "Tall, scaly humanoids.")
+        self.team_2.description = "Humanoids with stereotypical Nordic features."
+        self.assertEqual(self.team_2.description,  "Humanoids with stereotypical Nordic features.")
 
     def test_leader(self):
         """Test that leader gives correct values and is of correct class"""
@@ -137,20 +151,75 @@ class TestEmployeeEntity(unittest.TestCase):
         self.assertEqual(self.employee_1.name, "Scurrod")
         self.assertEqual(self.employee_2.name, "Brol")
 
+    def test_name_setter(self):
+        """Test name setter setts correct values"""
+        self.employee_1.name = "Draikrox"
+        self.assertEqual(self.employee_1.name, "Draikrox")
+        self.employee_2.name = "Strorkreins"
+        self.assertEqual(self.employee_2.name, "Strorkreins")
+
     def test_employee_id(self):
         """Test if employee id give correct values"""
         self.assertEqual(self.employee_1.employee_id, "00001")
         self.assertEqual(self.employee_2.employee_id, "00002")
+
+    def test_employee_id_setter(self):
+        """Test if employee id give correct values"""
+        self.employee_1.employee_id = "00003"
+        self.assertEqual(self.employee_1.employee_id, "00003")
+        self.employee_2.employee_id = "00004"
+        self.assertEqual(self.employee_2.employee_id, "00004")
+
+    def test_employee_id_setter_invalid_inputs(self):
+        """Test correct exceptions is raised when invalid inputs are  passed"""
+        with self.assertRaises(domain_validators.EmployeeIDLengthNot5):
+            self.employee_2.employee_id = "0004"  # length less than 5
+        with self.assertRaises(domain_validators.EmployeeIDLengthNot5):
+            self.employee_2.employee_id = "000040"  # length more than 5
 
     def test_hourly_rate(self):
         """Test if hourly rate gives correct values"""
         self.assertEqual(self.employee_1.hourly_rate, 100.00)
         self.assertEqual(self.employee_2.hourly_rate, 50.00)
 
+    def test_hourly_rate_setter(self):
+        """Test if hourly rate setter setts correct values"""
+        self.employee_1.hourly_rate = 45.00
+        self.assertEqual(self.employee_1.hourly_rate, 45.00)
+        self.employee_2.hourly_rate = 60.50
+        self.assertEqual(self.employee_2.hourly_rate, 60.50)
+
+    def test_hourly_rate_setter_invalid_inputs(self):
+        """Test if hourly rate setter raise appropriate exceptions"""
+        with self.assertRaises(ValueError):
+            self.employee_1.hourly_rate = "abc"
+
+        with self.assertRaises(ValueError):
+            self.employee_1.hourly_rate = -1
+
     def test_employee_type(self):
         """Test if employee type gives correct values"""
         self.assertEqual(self.employee_1.employee_type, 1)
         self.assertEqual(self.employee_2.employee_type, 2)
+
+    def test_employee_type_setter(self):
+        """Test if employee type setter setter correct values"""
+        self.employee_1.employee_type = 1
+        self.assertEqual(self.employee_1.employee_type, 1)
+        self.employee_1.employee_type = 2
+        self.assertEqual(self.employee_1.employee_type, 2)
+
+    def test_employee_type_setter_invalid_inputs(self):
+        """Test if employee type setter setter correct values"""
+        # employee can only be full time (1) or Part time (2)
+        with self.assertRaises(ValueError):
+            self.employee_1.employee_type = "abc"
+
+        with self.assertRaises(ValueError):
+            self.employee_1.employee_type = 0
+
+        with self.assertRaises(ValueError):
+            self.employee_1.employee_type = 3
 
     def test_created_at(self):
         """Test if created_at give correct values"""

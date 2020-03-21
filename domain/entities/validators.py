@@ -138,3 +138,9 @@ class Max40HoursExceeded(Exception):
     def __init__(self, message="Employee work arrangement percent can exceed 40 max work hours"):
         super(Max40HoursExceeded, self).__init__(message)
         self.message = message
+
+
+class EmployeeIDLengthNot5(Exception):
+    def __init__(self, message="Length of an employee ID must be 5"):
+        super(EmployeeIDLengthNot5, self).__init__(message)
+        self.message = message

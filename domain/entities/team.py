@@ -31,9 +31,17 @@ class TeamEntity:
     def name(self):
         return self._name
 
+    @name.setter
+    def name(self, name):
+        self._name = name
+
     @property
     def description(self):
         return self._description
+
+    @description.setter
+    def description(self, description):
+        self._description = description
 
     @property
     def created_at(self):
@@ -46,6 +54,10 @@ class TeamEntity:
     @updated_at.setter
     def updated_at(self, updated_at):
         self._updated_at = updated_at
+
+    @updated_at.setter
+    def updated_at(self, time):
+        self._updated_at = time
 
     @property
     def leader(self):

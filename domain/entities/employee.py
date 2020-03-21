@@ -4,7 +4,7 @@ Employee entity with  employee business rules.
 import decimal
 import datetime
 from .validators import NotEmployeeEntityType
-from .validators import EmployeeWorkTimeOutOfRange
+from .validators import EmployeeWorkTimeOutOfRange, EmployeeIDLengthNot5
 from .validators import EmployeeDoesNotHaveATeam
 import decimal
 
@@ -43,17 +43,49 @@ class EmployeeEntity:
     def name(self):
         return self._name
 
+    @name.setter
+    def name(self, name):
+        self._name = name
+
     @property
     def employee_id(self):
         return self._employee_id
+
+    @employee_id.setter
+    def employee_id(self, employee_id):
+        length = len(str(employee_id))
+        if length != 5:
+            raise EmployeeIDLengthNot5()
+        self._employee_id = employee_id
 
     @property
     def hourly_rate(self):
         return self._hourly_rate
 
+    @hourly_rate.setter
+    def hourly_rate(self, rate):
+        # try to convert to float and raise TypeError exception if it fails
+        try:
+            r = float(rate)
+        except ValueError:
+            raise ValueError("Invalid input")
+        if rate < 0:
+            raise ValueError("Hourly rate can not be negative")
+        self._hourly_rate = rate
+
     @property
     def employee_type(self):
         return self._employee_type
+
+    @employee_type.setter
+    def employee_type(self, employee_type):
+        try:
+            r = float(employee_type)
+        except ValueError:
+            raise ValueError("Invalid input")
+        if employee_type !=1 or employee_type != 2:
+            raise ValueError("Employee can be of type 1-FUll time or type 2- Part time")
+        self._employee_type = employee_type
 
     @property
     def created_at(self):
