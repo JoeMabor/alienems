@@ -83,7 +83,7 @@ class EmployeeEntity:
             r = float(employee_type)
         except ValueError:
             raise ValueError("Invalid input")
-        if employee_type !=1 or employee_type != 2:
+        if not (employee_type == 1 or employee_type == 2):
             raise ValueError("Employee can be of type 1-FUll time or type 2- Part time")
         self._employee_type = employee_type
 

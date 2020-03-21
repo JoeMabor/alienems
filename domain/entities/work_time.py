@@ -8,7 +8,6 @@ class WorkTimeEntity:
     """
     Employee work time entity
     """
-    # todo: add work arrangement
     def __init__(self,  hours: int, employee: EmployeeEntity, work_arrangement, id: int = None):
         self._id = id
         self._hours = hours
@@ -21,19 +20,11 @@ class WorkTimeEntity:
 
     @property
     def hours(self):
-        if self.validates_hours(self._hours):
-
-            return self._hours
-        else:
-            raise EmployeeWorkTimeOutOfRange()
+        return self._hours
 
     @hours.setter
     def hours(self, hours):
-        if self.validates_hours(hours):
-
-            self._hours = hours
-        else:
-            raise EmployeeWorkTimeOutOfRange()
+        self._hours = self.validates_hours(hours)
 
     @property
     def employee(self):
@@ -48,8 +39,10 @@ class WorkTimeEntity:
         return self._work_arrangement
 
     def validates_hours(self, hours: int):
-        print(F"Hours: {hours}")
-        if hours > 0 and hours <= 40:
-            return True
-        else:
-            return False
+        try:
+            if hours < 0 or hours > 40:
+                raise EmployeeWorkTimeOutOfRange()
+            else:
+                return hours
+        except TypeError:
+            raise TypeError("Invalid inputs")

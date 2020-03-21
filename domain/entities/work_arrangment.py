@@ -11,10 +11,14 @@ class WorkArrangementEntity:
     """
     Employee work time entity
     """
-    def __init__(self, percent: int, team: TeamEntity, id: int = None,  employee: EmployeeEntity = None,  remarks: str = None):
+    def __init__(self,
+                 percent: int,
+                 team: TeamEntity,
+                 id: int = None,
+                 employee: EmployeeEntity = None,
+                 remarks: str = None):
         self._id = id
-        if percent is None:
-            raise WorkArrangementPercentageNull()
+        self.validate_percentage(percent)
         self._percent = percent
         self._employee = employee
         self._remarks = remarks
@@ -26,17 +30,15 @@ class WorkArrangementEntity:
 
     @property
     def percent(self):
-        if self.validate_percentage(self._percent):
-            return self._percent
-        else:
-            raise WorkArrangementPercentageOutOfRange()
+        return self._percent
+
+    @percent.setter
+    def percent(self, percent):
+        self._percent = self.validate_percentage(percent)
 
     @property
     def employee(self):
-        if self._employee:
-            return self._employee
-        else:
-            raise EmployeeIsNull("Work arrangement employee id can not be null")
+        return self._employee
 
     @employee.setter
     def employee(self, employee):
@@ -51,15 +53,25 @@ class WorkArrangementEntity:
         return self._remarks
 
     def validate_percentage(self, percentage: int):
-        if percentage > 0 and percentage <= 100:
-            return True
-        else:
-            return False
+        """Validate percentage and return the percentage value if it doesnt raise exception"""
+        try:
+            if percentage < 0 or percentage > 100:
+                raise WorkArrangementPercentageOutOfRange()
+            else:
+                return percentage
+        except TypeError:
+            raise TypeError("Invalid input")
 
     @staticmethod
     def calculate_work_time_hours(percentage):
         # part time employees work is work arrangement percentage of 40 hours
-        return int((percentage/100) * 40)
+        try:
+            if percentage < 0 or percentage > 100:
+                raise WorkArrangementPercentageOutOfRange()
+            else:
+                return int((percentage/100) * 40)
+        except TypeError:
+            raise TypeError("Invalid input")
 
     def __str__(self):
         return F"{self._percent}"
