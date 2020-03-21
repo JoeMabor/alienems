@@ -60,6 +60,17 @@ class TestTeamEntity(unittest.TestCase):
         self.assertIsInstance(self.team_2.leader, EmployeeEntity)
         self.assertEqual(self.team_2.leader, self.leader)
 
+    def test_set_leader(self):
+        """Test that leader gives correct values and is of correct class"""
+        self.team_1.leader = self.leader
+        self.assertIsInstance(self.team_1.leader, EmployeeEntity)
+        self.assertEqual(self.team_1.leader, self.leader)
+
+    def test_has_a_leader(self):
+        """Test if team has a leader give correct boolean values"""
+        self.assertFalse(self.team_1.has_a_leader)
+        self.assertTrue(self.team_2.has_a_leader)
+
     def test_created_at(self):
         """Test if created_at give correct values"""
         self.assertIsNone(self.team_1.created_at)
@@ -69,6 +80,15 @@ class TestTeamEntity(unittest.TestCase):
         """Test if updated give correct values"""
         self.assertIsNone(self.team_1.updated_at)
         self.assertEqual(self.team_2.updated_at, self.updated_at)
+
+    def test_updated_at_setter(self):
+        """Test if updated_at setter set values correect"""
+        new_updated_at_1 = datetime.datetime.now() + datetime.timedelta(days=1)
+        new_updated_at_2 = datetime.datetime.now() + datetime.timedelta(days=2)
+        self.team_1.updated_at = new_updated_at_1
+        self.team_2.updated_at = new_updated_at_2
+        self.assertEqual(self.team_1.updated_at, new_updated_at_1)
+        self.assertEqual(self.team_2.updated_at, new_updated_at_2)
 
 
 class TestEmployeeEntity(unittest.TestCase):

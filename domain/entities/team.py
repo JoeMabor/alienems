@@ -23,7 +23,6 @@ class TeamEntity:
         self._updated_at = updated_at
         self._leader = leader
 
-
     @property
     def id(self):
         return self._id
@@ -32,17 +31,9 @@ class TeamEntity:
     def name(self):
         return self._name
 
-    @name.setter
-    def name(self, name):
-        self._name = name
-
     @property
     def description(self):
         return self._description
-
-    @description.setter
-    def description(self, description):
-        self._description = description
 
     @property
     def created_at(self):
@@ -55,10 +46,6 @@ class TeamEntity:
     @updated_at.setter
     def updated_at(self, updated_at):
         self._updated_at = updated_at
-
-    @updated_at.setter
-    def updated_at(self, time):
-        self._updated_at = time
 
     @property
     def leader(self):
@@ -78,24 +65,3 @@ class TeamEntity:
             return True
         else:
             return False
-
-    def is_a_leader(self, employee):
-        """
-        Check is a given employee is a leader of a team instance
-        :param employee:
-        :return:
-        """
-        if self._leader.id == employee.id:
-            return True
-        else:
-            return False
-
-    @staticmethod
-    def set_team(team):
-        if team:
-            # not None or null
-            if isinstance(team, TeamEntity):
-                return team
-            else:
-                raise NotEmployeeEntityType()
-        raise EmployeeIsNull()
