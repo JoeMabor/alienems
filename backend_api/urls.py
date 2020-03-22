@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from .views import HomeView
 from .views import ManageTeamView
 from .views import ManageEmployeesView
 from .views import TeamLeaderView
@@ -25,6 +26,7 @@ team_employees_router.register(r'team-employees', TeamEmployeeView, basename="te
 
 
 urlpatterns = [
+    path("",HomeView.as_view() ),
     path("", include(employee_router.urls)),
     path("", include(team_router.urls)),
     path("", include(team_leaders_router.urls)),

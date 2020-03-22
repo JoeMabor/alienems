@@ -1,11 +1,16 @@
 import domain.entities.validators as domain_exceptions
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
+from django.views.generic import TemplateView
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status
 from .app_config import CONTROLLERS
 import backend_api.serializers as data_serializers
+
+
+class HomeView(TemplateView):
+    template_name  = "index.html"
 
 
 class ManageTeamView(viewsets.ViewSet):
