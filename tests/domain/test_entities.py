@@ -97,13 +97,13 @@ class TestTeamEntity(unittest.TestCase):
         self.assertEqual(self.team_2.updated_at, self.updated_at)
 
     def test_updated_at_setter(self):
-        """tests if updated_at setter set values correect"""
+        """tests if updated_at setter set values correct"""
         new_updated_at_1 = datetime.datetime.now() + datetime.timedelta(days=1)
         new_updated_at_2 = datetime.datetime.now() + datetime.timedelta(days=2)
         self.team_1.updated_at = new_updated_at_1
-        self.team_2.updated_at = new_updated_at_2
         self.assertEqual(self.team_1.updated_at, new_updated_at_1)
-        self.assertEqual(self.team_2.updated_at, new_updated_at_2)
+        self.team_1.updated_at = new_updated_at_2
+        self.assertEqual(self.team_1.updated_at, new_updated_at_2)
 
 
 class TestEmployeeEntity(unittest.TestCase):
@@ -342,7 +342,9 @@ class TestTeamEmployee(unittest.TestCase):
         self.team_employee = TeamEmployeeEntity(
             id=1,
             employee=self.employee,
-            team=self.team
+            team=self.team,
+            created_at=self.created_at,
+            updated_at=self.updated_at
         )
 
     def test_id(self):
@@ -354,10 +356,17 @@ class TestTeamEmployee(unittest.TestCase):
         self.assertIsInstance(self.team_employee.employee, EmployeeEntity)
         self.assertEqual(self.team_employee.employee, self.employee)
 
-    def team(self):
+    def test_team(self):
         """tests that employee give correct value and instance"""
-        self.assertIsInstance(self.team_employee.team, TeamEntity)
         self.assertEqual(self.team_employee.team, self.team)
+
+    def test_created_at(self):
+        """tests if created_at give correct values"""
+        self.assertEqual(self.team_employee.created_at, self.created_at)
+
+    def test_updated_at(self):
+        """tests if updated give correct values"""
+        self.assertEqual(self.team_employee.updated_at, self.updated_at)
 
 
 class TestTeamLeader(unittest.TestCase):
@@ -386,7 +395,9 @@ class TestTeamLeader(unittest.TestCase):
         self.team_leader = TeamLeaderEntity(
             id=1,
             leader=self.leader,
-            team=self.team
+            team=self.team,
+            created_at=self.created_at,
+            updated_at=self.updated_at
         )
 
     def test_id(self):
@@ -398,10 +409,18 @@ class TestTeamLeader(unittest.TestCase):
         self.assertIsInstance(self.team_leader.leader, EmployeeEntity)
         self.assertEqual(self.team_leader.leader, self.leader)
 
-    def team(self):
+    def test_team(self):
         """tests that employee give correct value and instance"""
         self.assertIsInstance(self.team_leader.team, TeamEntity)
         self.assertEqual(self.team_leader.team, self.team)
+
+    def test_created_at(self):
+        """tests if created_at give correct values"""
+        self.assertEqual(self.team_leader.created_at, self.created_at)
+
+    def test_updated_at(self):
+        """tests if updated give correct values"""
+        self.assertEqual(self.team_leader.updated_at, self.updated_at)
 
 
 class TestWorkArrangement(unittest.TestCase):
