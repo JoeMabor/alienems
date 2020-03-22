@@ -3,7 +3,7 @@
  Work arrangements allow part time workers to have more than one job in the company.
 """
 from abc import ABC, abstractmethod
-from ..data_models.manage_employees_data_models import CreateWorkArrangementData, UpdateWorkArrangementData
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class WorkArrangementUseCasePort(ABC):
@@ -28,7 +28,7 @@ class WorkArrangementUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def add_work_arrangement(self, request_data: CreateWorkArrangementData):
+    def add_work_arrangement(self, request_data: request_data_models.CreateWorkArrangementData):
         """
         Add new work arrangement
         :param request_data:
@@ -37,7 +37,7 @@ class WorkArrangementUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def update_work_arrangement(self, request_data: UpdateWorkArrangementData):
+    def update_work_arrangement(self, request_data: request_data_models.UpdateWorkArrangementData):
         """
         Update existing work arrangement
         :param request_data:

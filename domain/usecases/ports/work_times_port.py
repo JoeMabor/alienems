@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from ...entities.work_time import WorkTimeEntity
 
 
 class WorkTimeUseCasPort(ABC):

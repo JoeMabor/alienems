@@ -3,9 +3,7 @@ Interfaces/ports for manage team leaders use cases. These interfaces enforce IDe
 """
 
 from abc import ABC, abstractmethod
-from ...entities.team_leader import TeamLeaderEntity
-from ..data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
-from ..data_models.manage_team_data_models import UpdateTeamLeaderRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class TeamLeaderUseCasePort(ABC):
@@ -28,7 +26,7 @@ class TeamLeaderUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def assign_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def assign_team_leader(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         """
          Assign team leader to a team that doesn't have a team leader
         :param request_data:
@@ -37,5 +35,5 @@ class TeamLeaderUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def change_team_leader(self, request_data: UpdateTeamLeaderRequestData):
+    def change_team_leader(self, request_data: request_data_models.UpdateTeamLeaderRequestData):
         pass

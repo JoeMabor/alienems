@@ -4,9 +4,9 @@ from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
 import domain.entities.validators as domain_validators
 from domain.entities.team_leader import TeamLeaderEntity
-from .data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
-from .data_models.manage_team_data_models import UpdateTeamLeaderRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 import datetime
+
 
 class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
     def __init__(self, team_leader_repo: TeamLeaderRepoPort, team_repo: TeamRepoPort, employee_repo: EmployeeRepoPort):
@@ -21,7 +21,7 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         """
         return self._team_leader_repo.retrieve_all_team_leaders()
 
-    def assign_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def assign_team_leader(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         """
         Assign team leader to a team without a leader
         :param request_data:
@@ -60,7 +60,7 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         """
         return self._team_leader_repo.retrieve_team_leader(tl_pk)
 
-    def change_team_leader(self, request_data: UpdateTeamLeaderRequestData):
+    def change_team_leader(self, request_data: request_data_models.UpdateTeamLeaderRequestData):
         """
         Change  a leader of a team to a new leader
         :param request_data:

@@ -1,5 +1,5 @@
 from .ports.work_arrangements_port import WorkArrangementUseCasePort
-from .data_models.manage_employees_data_models import CreateWorkArrangementData, UpdateWorkArrangementData
+import domain.usecases.data_models.request_data_models as request_data_models
 from .repositories.work_arrangement_repository import WorkArrangementRepoPort
 from .repositories.work_time_repository import WorkTimeRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
@@ -42,7 +42,7 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
     def retrieve_work_arrangement(self, wa_pk):
         return self._work_arrangement_repo.retrieve_by_pk(wa_pk)
 
-    def add_work_arrangement(self, request_data: CreateWorkArrangementData):
+    def add_work_arrangement(self, request_data: request_data_models.CreateWorkArrangementData):
         """
         Add new work arrangement of an employee
         :param request_data:
@@ -92,7 +92,7 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         self._work_time_repo.save_work_time(work_time)
         return new_wa_entity
 
-    def update_work_arrangement(self, request_data: UpdateWorkArrangementData):
+    def update_work_arrangement(self, request_data: request_data_models.UpdateWorkArrangementData):
         """
         Update existing work arrangement
         :param request_data:

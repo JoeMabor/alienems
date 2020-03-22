@@ -4,7 +4,7 @@ Interfaces/ports for manage team employees use cases. Dependency Inversion Princ
 
 from abc import ABC, abstractmethod
 from ...entities.team_employee import TeamEmployeeEntity
-from ..data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class TeamEmployeeUseCasePort(ABC):
@@ -27,7 +27,7 @@ class TeamEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def add_team_employee(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         """
          Assign team employee to a team that doesn't have a team employee
         :param request_data:
@@ -36,5 +36,5 @@ class TeamEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def remove_team_employee(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def remove_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         pass

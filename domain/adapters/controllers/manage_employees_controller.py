@@ -3,11 +3,7 @@ Controller for manage employee use case. Acts as boundary layer that convert req
 ManageEmployeeUseCase and the view.
 """
 from ...usecases.ports.manage_employees_ports import ManageEmployeeUseCasePort
-from ...entities.employee import EmployeeEntity
-from ...entities.work_arrangment import WorkArrangementEntity
-from ...usecases.data_models.manage_employees_data_models import EmployeePresenterData
-from ...usecases.data_models.manage_employees_data_models import CreateEmployeeRequestData
-from ...usecases.data_models.manage_employees_data_models import UpdateEmployeeMRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class ManageEmployeesController:
@@ -29,7 +25,7 @@ class ManageEmployeesController:
         """
         return self._use_case.retrieve_employee(employee_pk=employee_pk)
 
-    def create_employee(self, request_data: CreateEmployeeRequestData):
+    def create_employee(self, request_data: request_data_models.CreateEmployeeRequestData):
         """
         Save new employee entity in the repository and return TeamEntity
         :param request_data: TeamEntity
@@ -38,7 +34,7 @@ class ManageEmployeesController:
 
         return self._use_case.create_employee(request_data)
 
-    def update_employee(self, request_data: UpdateEmployeeMRequestData):
+    def update_employee(self, request_data: request_data_models.UpdateEmployeeMRequestData):
         """
         Update new employee entity in the repository and return TeamEntity
         :param request_data:

@@ -1,9 +1,7 @@
 """
 Contain Interface class for that defines high level business rules of manage employees use case
 """
-from ...entities.employee import EmployeeEntity
-from ...entities.work_arrangment import WorkArrangementEntity
-from ..data_models.manage_employees_data_models import UpdateEmployeeMRequestData, CreateEmployeeRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 from abc import ABC,  abstractmethod
 
 
@@ -27,7 +25,7 @@ class ManageEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def create_employee(self, request_data: CreateEmployeeRequestData):
+    def create_employee(self, request_data: request_data_models.CreateEmployeeRequestData):
         """
         Create new employee
         :param request_data:
@@ -36,7 +34,7 @@ class ManageEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def update_employee(self, request_data: UpdateEmployeeMRequestData):
+    def update_employee(self, request_data: request_data_models.UpdateEmployeeMRequestData):
         """
         Update changes to an employee
         :param request_data: UpdateEmployeeMRequestData

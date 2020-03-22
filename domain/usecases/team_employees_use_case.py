@@ -1,11 +1,13 @@
-from domain.usecases.data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
+
 from .ports.team_employee_port import TeamEmployeeUseCasePort
 from .repositories.team_employees_repository import TeamEmployeeRepoPort
 from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
 from ..entities.team_employee import TeamEmployeeEntity
 import domain.entities.validators as domain_validators
+import domain.usecases.data_models.request_data_models as request_data_models
 import datetime
+
 
 class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
     """
@@ -27,7 +29,7 @@ class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
     def retrieve_team_employee(self, te_pk: int):
         return self._team_employee_repo.retrieve_team_employees(te_pk)
 
-    def add_team_employee(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         """
         Add new team employee to repository. If a team an employee is being added to doesn't have a leader, the
         employee becomes a leader

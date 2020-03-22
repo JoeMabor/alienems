@@ -5,12 +5,13 @@ just use entities and some data models some requests and responses.
 """
 
 from rest_framework import serializers
-import domain.usecases.data_models.manage_employees_data_models as employee_data
-import domain.usecases.data_models.manage_team_data_models as team_data
+import domain.usecases.data_models.request_data_models as request_data_models
+from domain.entities.employee import EmployeeEntity
 from domain.entities.team import TeamEntity
 from domain.entities.team_employee import TeamEmployeeEntity
 from domain.entities.team_leader import TeamLeaderEntity
 from domain.entities.work_arrangment import WorkArrangementEntity
+from domain.entities.work_time import WorkTimeEntity
 
 
 class PresentEmployeeDataSerializer(serializers.Serializer):
@@ -35,7 +36,7 @@ class PresentEmployeeDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.EmployeePresenterData(**validated_data)
+        return EmployeeEntity(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -72,7 +73,7 @@ class UpdateEmployeeRequestSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.UpdateEmployeeMRequestData(**validated_data)
+        return request_data_models.UpdateEmployeeMRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -86,17 +87,6 @@ class UpdateEmployeeRequestSerializer(serializers.Serializer):
         instance.employee_id = validated_data.get("employee_id", instance.employee_id)
         instance.hourly_rate = validated_data.get("hourly_rate", instance.hourly_rate)
         return instance
-
-
-class CreateWorkArrangement(serializers.Serializer):
-    percentage = serializers.IntegerField()
-    description = serializers.CharField(allow_null=True, allow_blank=True)
-
-    def create(self, validated_data):
-        pass
-
-    def update(self, instance, validated_data):
-        pass
 
 
 class CreateEmployeeSerializer(serializers.Serializer):
@@ -115,7 +105,7 @@ class CreateEmployeeSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.CreateEmployeeRequestData(**validated_data)
+        return request_data_models.CreateEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -145,7 +135,7 @@ class CreateTeamSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.CreateTeamRequestData(**validated_data)
+        return request_data_models.CreateTeamRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -175,7 +165,7 @@ class UpdateTeamSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.UpdateTeamRequestData(**validated_data)
+        return request_data_models.UpdateTeamRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -262,7 +252,7 @@ class TeamLeaderOrEmployeeRequestDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.TeamLeaderOrEmployeeRequestData(**validated_data)
+        return request_data_models.TeamLeaderOrEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -287,7 +277,7 @@ class UpdateTeamLeaderRequestDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.UpdateTeamLeaderRequestData(**validated_data)
+        return request_data_models.UpdateTeamLeaderRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -373,7 +363,7 @@ class CreateWorkArrangementSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.CreateWorkArrangementData(**validated_data)
+        return request_data_models.CreateWorkArrangementData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -403,7 +393,7 @@ class UpdateWorkArrangementSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.UpdateWorkArrangementData(**validated_data)
+        return request_data_models.UpdateWorkArrangementData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -433,7 +423,7 @@ class PresentWorkTimeDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return employee_data.PresentWorkTimeData(**validated_data)
+        return WorkTimeEntity(**validated_data)
 
     def update(self, instance, validated_data):
         """

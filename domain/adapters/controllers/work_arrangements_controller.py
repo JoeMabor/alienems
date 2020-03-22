@@ -1,4 +1,5 @@
 from ...usecases.ports.work_arrangements_port import WorkArrangementUseCasePort
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class WorkArrangementsController:
@@ -14,7 +15,7 @@ class WorkArrangementsController:
     def view_work_arrangement(self, wa_pk):
         return self._use_case.retrieve_work_arrangement(wa_pk)
 
-    def add_work_arrangement(self, request_data):
+    def add_work_arrangement(self, request_data: request_data_models.CreateWorkArrangementData):
         """
         Add work arrangement
         :param request_data:
@@ -22,7 +23,7 @@ class WorkArrangementsController:
         """
         return self._use_case.add_work_arrangement(request_data)
 
-    def update_work_arrangement(self, request_data):
+    def update_work_arrangement(self, request_data: request_data_models.UpdateWorkArrangementData):
         """
         Update work arrangement
         :param request_data:

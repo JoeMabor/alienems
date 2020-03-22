@@ -1,32 +1,9 @@
+"""
+This module defines all data model for requests that controllers will accept and pass to use cases
+"""
+
 import decimal
 import datetime
-
-
-class EmployeePresenterData:
-    """
-    Employee data to to be presented to the view
-    """
-    def __init__(self,
-                 id: int,
-                 name: str,
-                 employee_id: str,
-                 hourly_rate: decimal.Decimal,
-                 employee_type: int,
-                 created_at: datetime.datetime,
-                 updated_at: datetime.datetime,
-                 pay,
-                 is_a_leader
-                 ):
-
-        self.id = id
-        self.name = name
-        self.employee_id = employee_id
-        self.hourly_rate = hourly_rate
-        self.employee_type = employee_type
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.is_a_leader = is_a_leader
-        self.pay = pay
 
 
 class CreateEmployeeRequestData:
@@ -66,16 +43,6 @@ class UpdateEmployeeMRequestData:
         self.hourly_rate = hourly_rate
 
 
-class PresentWorkTimeData:
-    """
-    Data model for presenting work time of each employee
-    """
-    def __init__(self, id: int, hours: int, employee: EmployeePresenterData):
-        self.id = id
-        self.hours = hours
-        self.employee = employee
-
-
 class CreateWorkArrangementData:
     """
     Data model for create new work arrangement
@@ -98,3 +65,35 @@ class UpdateWorkArrangementData:
         self.employee_id = employee_id
         self.team_id = team_id
 
+
+class CreateTeamRequestData:
+    def __init__(self, name, description=None, leader_id=None):
+        self.name = name
+        self.description = description
+        self.leader_id = leader_id
+
+
+class UpdateTeamRequestData:
+    def __init__(self, id: int, name, description= None):
+        self.id = id
+        self.name = name
+        self.description = description
+
+
+class TeamLeaderOrEmployeeRequestData:
+    """
+    Data request for assigning  a team leader, adding and removing team employee
+    """
+    def __init__(self, team_id, employee_id):
+        self.team_id = team_id
+        self.employee_id = employee_id
+
+
+class UpdateTeamLeaderRequestData:
+    """
+    Data request for assigning  a team leader, adding and removing team employee
+    """
+    def __init__(self, id, team_id, employee_id):
+        self.id = id
+        self.team_id = team_id
+        self.employee_id = employee_id

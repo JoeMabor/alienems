@@ -3,8 +3,9 @@ from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
 from ..entities.team import TeamEntity
 from domain.entities.validators import ObjectEntityDoesNotExist
-from .data_models.manage_team_data_models import CreateTeamRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 import datetime
+
 
 class ManageTeamUseCase(ManageTeamUseCasePort):
     def __init__(self, team_repo: TeamRepoPort, employee_repo:EmployeeRepoPort):
@@ -17,7 +18,7 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
     def retrieve_team(self, team_pk: int):
         return self._team_repo.retrieve_by_id(team_pk=team_pk)
 
-    def create_team(self, request_data: CreateTeamRequestData):
+    def create_team(self, request_data: request_data_models.CreateTeamRequestData):
         """
         Create team a new team. Check if team leader is given and save it
         :param request_data:
@@ -37,7 +38,7 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
 
         return self._team_repo.save(team_entity)
 
-    def update_team(self, request_data: CreateTeamRequestData):
+    def update_team(self, request_data:  request_data_models.CreateTeamRequestData):
         """
         Interface
         :param request_data:

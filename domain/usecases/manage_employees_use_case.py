@@ -17,7 +17,7 @@ from ..entities.validators import WorkArrangementPercentageNull
 from ..entities.validators import ObjectEntityDoesNotExist
 from ..entities.validators import EmployeeIDIsNotUnique
 import domain.entities.validators as domain_validators
-from .data_models.manage_employees_data_models import UpdateEmployeeMRequestData, CreateEmployeeRequestData
+import domain.usecases.data_models.request_data_models as request_data_models
 import datetime
 
 
@@ -48,7 +48,7 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
     def retrieve_employee(self, employee_pk: int):
         return self._employee_repo.retrieve_by_id(employee_pk=employee_pk)
 
-    def update_employee(self, request_data: UpdateEmployeeMRequestData):
+    def update_employee(self, request_data: request_data_models.UpdateEmployeeMRequestData):
         employee_entity = self._employee_repo.retrieve_by_id(employee_pk=request_data.id)
         employee_entity.name = request_data.name
         employee_entity.employee_id = request_data.employee_id
@@ -56,13 +56,12 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         employee_entity.updated_at = datetime.datetime.now()
         return self._employee_repo.save(employee_entity)
 
-    def create_employee(self, request_data: CreateEmployeeRequestData):
+    def create_employee(self, request_data: request_data_models.CreateEmployeeRequestData):
         """
         Create new employee along with employee work work arrangement amd work time is employee is part time
         :param request_data:
         :return:
         """
-        # todo: Refactor the code to adhere to DRY
         # check if new employee DI exist in the database
         if self._employee_repo.is_employee_id_unique(employee_id=request_data.employee_id):
             team = self._team_repo.team_exists(request_data.team_id)
@@ -137,7 +136,7 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         # part time employees work is work arrangement percentage of 40 hours
         return int((percentage/100) * 40)
 
-    def _create_new_employee_entity(self, request_data: CreateEmployeeRequestData):
+    def _create_new_employee_entity(self, request_data: request_data_models.CreateEmployeeRequestData):
         """Create new employee entity"""
         return EmployeeEntity(
             name=request_data.name,

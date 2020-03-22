@@ -3,7 +3,7 @@ Controller for  team employees use case. Acts as boundary layer that convert req
 TeamLeaderUseCase and the view.
 """
 from ...usecases.ports.team_employee_port import TeamEmployeeUseCasePort
-import domain.usecases.data_models.manage_team_data_models as team_data
+import domain.usecases.data_models.request_data_models as request_data_models
 
 
 class TeamEmployeeController:
@@ -25,7 +25,7 @@ class TeamEmployeeController:
         """
         return self._use_case.retrieve_team_employee(te_pk)
 
-    def add_team_employee(self, request_data: team_data.TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
         """
         map request to assign assign a employee to a team
         :param request_data:
