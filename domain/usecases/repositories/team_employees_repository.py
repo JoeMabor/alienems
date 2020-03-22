@@ -28,11 +28,9 @@ class TeamEmployeeRepoPort(ABC):
         pass
 
     @abstractmethod
-    def save_team_employee(self, team_pk: int, employee_pk: int):
+    def save_team_employee(self, te_entity: TeamEmployeeEntity):
         """
-
-        :param team_pk:
-        :param employee_pk:
+        :param te_entity:
         :return:
         """
         pass

@@ -4,7 +4,7 @@ from .repositories.employee_repository import EmployeeRepoPort
 from ..entities.team import TeamEntity
 from domain.entities.validators import ObjectEntityDoesNotExist
 from .data_models.manage_team_data_models import CreateTeamRequestData
-
+import datetime
 
 class ManageTeamUseCase(ManageTeamUseCasePort):
     def __init__(self, team_repo: TeamRepoPort, employee_repo:EmployeeRepoPort):
@@ -23,7 +23,12 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
         :param request_data:
         :return:
         """
-        team_entity = TeamEntity(name=request_data.name, description=request_data.description)
+        team_entity = TeamEntity(
+            name=request_data.name,
+            description=request_data.description,
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
+        )
         if request_data.leader_id is not None:
             # team leader is not null
             # save team leader first
@@ -41,8 +46,7 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
         old_team = self._team_repo.retrieve_by_id(request_data.id)
         old_team.name = request_data.name
         old_team.description = request_data.description
-        if request_data.leader_id is not None:
-            old_team.leader = self._employee_repo.retrieve_by_id(request_data.leader_id)
+        old_team.updated_at = datetime.datetime.now()
         return self._team_repo.save(old_team)
 
     def delete_team(self, team_pk: int):

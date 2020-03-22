@@ -6,27 +6,29 @@ import datetime
 
 
 class CreateTeamRequestData:
-    def __init__(self,name, id: int = None, description= None, leader_id = None):
-        self.id = id
+    def __init__(self, name, description=None, leader_id=None):
         self.name = name
         self.description = description
         self.leader_id = leader_id
 
+
+class UpdateTeamRequestData:
+    def __init__(self, id: int, name, description= None):
+        self.id = id
+        self.name = name
+        self.description = description
 
 class PresentTeamRequestData:
     def __init__(self,
                  name,
                  created_at: datetime.datetime,
                  updated_at: datetime.datetime,
-                 description=None,
-                 leader: EmployeePresenterData = None
+                 description=None
                  ):
         self.name = name
         self.description = description
         self.created_at = created_at
         self.updated_at = updated_at
-        print(F"Team leader in Data model: {leader}")
-        self.leader = leader
 
 
 class PresentTeamLeaderRequestData:
@@ -44,6 +46,16 @@ class TeamLeaderOrEmployeeRequestData:
     Data request for assigning  a team leader, adding and removing team employee
     """
     def __init__(self, team_id, employee_id):
+        self.team_id = team_id
+        self.employee_id = employee_id
+
+
+class UpdateTeamLeaderRequestData:
+    """
+    Data request for assigning  a team leader, adding and removing team employee
+    """
+    def __init__(self, id, team_id, employee_id):
+        self.id = id
         self.team_id = team_id
         self.employee_id = employee_id
 

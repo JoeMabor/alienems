@@ -8,6 +8,8 @@ from rest_framework import serializers
 import domain.usecases.data_models.manage_employees_data_models as employee_data
 import domain.usecases.data_models.manage_team_data_models as team_data
 from domain.entities.team import TeamEntity
+from domain.entities.team_employee import TeamEmployeeEntity
+from domain.entities.team_leader import TeamLeaderEntity
 from domain.entities.work_arrangment import WorkArrangementEntity
 
 
@@ -162,6 +164,33 @@ class CreateTeamSerializer(serializers.Serializer):
         return instance
 
 
+class UpdateTeamSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=50)
+    description = serializers.CharField()
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return team_data.UpdateTeamRequestData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+
+        instance.id = validated_data.get("id", instance.id)
+        instance.name = validated_data.get("name", instance.name)
+        instance.description = validated_data.get("description", instance.description)
+        return instance
+
+
 class PresentTeamSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False, allow_null=True)
     name = serializers.CharField(max_length=50)
@@ -195,6 +224,8 @@ class PresentTeamSerializer(serializers.Serializer):
 
 class TeamLeaderPresenterSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
     leader = PresentEmployeeDataSerializer(serializers.Serializer)
     team = PresentTeamSerializer(serializers.Serializer)
 
@@ -204,7 +235,7 @@ class TeamLeaderPresenterSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.PresentTeamLeaderRequestData(**validated_data)
+        return TeamLeaderEntity(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -214,6 +245,8 @@ class TeamLeaderPresenterSerializer(serializers.Serializer):
         :return:
         """
         instance.id = validated_data.get("id", instance.id)
+        instance.created_at = validated_data.get("created_at", instance.created_at)
+        instance.updated_at = validated_data.get("updated_at", instance.updated_at)
         instance.leader = validated_data.get("leader", instance.leader)
         instance.team = validated_data.get("team", instance.team)
         return instance
@@ -243,8 +276,36 @@ class TeamLeaderOrEmployeeRequestDataSerializer(serializers.Serializer):
         return instance
 
 
+class UpdateTeamLeaderRequestDataSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    team_id = serializers.IntegerField()
+    employee_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        """
+        Create and return complete instance of team Entity based on validated data
+        :param validated_data:
+        :return:
+        """
+        return team_data.UpdateTeamLeaderRequestData(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Validate team entity at serializer boundary level
+        :param instance:
+        :param validated_data:
+        :return:
+        """
+        instance.id = validated_data.get("id", instance.id)
+        instance.team_id = validated_data.get("team_id", instance.team_id)
+        instance.employee_id = validated_data.get("employee_id", instance.employee_id)
+        return instance
+
+
 class PresentTeamEmployeeDataSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
     team = PresentTeamSerializer(serializers.Serializer)
     employee = PresentEmployeeDataSerializer(serializers.Serializer)
 
@@ -254,7 +315,7 @@ class PresentTeamEmployeeDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return team_data.PresentTeamEmployeeData(**validated_data)
+        return TeamEmployeeEntity(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -266,6 +327,8 @@ class PresentTeamEmployeeDataSerializer(serializers.Serializer):
         instance.id = validated_data.get("id", instance.id)
         instance.team = validated_data.get("team", instance.team)
         instance.employee = validated_data.get("employee", instance.employee)
+        instance.created_at = validated_data.get("created_at", instance.created_at)
+        instance.updated_at = validated_data.get("updated_at", instance.updated_at)
         return instance
 
 

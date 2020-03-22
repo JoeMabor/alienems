@@ -3,8 +3,9 @@ from .ports.team_employee_port import TeamEmployeeUseCasePort
 from .repositories.team_employees_repository import TeamEmployeeRepoPort
 from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
+from ..entities.team_employee import TeamEmployeeEntity
 import domain.entities.validators as domain_validators
-
+import datetime
 
 class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
     """
@@ -44,10 +45,13 @@ class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
                 else:
                     print("Not a member")
                     # save team new team employee
-                    team_employee = self._team_employee_repo.save_team_employee(
-                        team_pk=request_data.team_id,
-                        employee_pk=request_data.employee_id
+                    new_te_entity = TeamEmployeeEntity(
+                        team=team,
+                        employee=employee,
+                        created_at=datetime.datetime.now(),
+                        updated_at=datetime.datetime.now()
                     )
+                    team_employee = self._team_employee_repo.save_team_employee(new_te_entity)
                     if team.leader:
                         pass
                     else:

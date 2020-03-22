@@ -1,7 +1,7 @@
 from domain.entities.work_time import WorkTimeEntity
 from domain.usecases.repositories.work_time_repository import WorkTimeRepoPort
 from ..models import WorkTime
-from .helpers import DataConverters
+from backend_api.utilities import DataConverters
 
 
 class WorkTimeRepoImpl(WorkTimeRepoPort):

@@ -1,7 +1,7 @@
 from domain.usecases.repositories.team_leader_repository import TeamLeaderRepoPort
 from domain.entities.team_leader import TeamLeaderEntity
 from ..models import TeamLeader
-from .helpers import DataConverters
+from backend_api.utilities import DataConverters
 
 
 class TeamLeaderRepoImpl(TeamLeaderRepoPort):
@@ -31,10 +31,16 @@ class TeamLeaderRepoImpl(TeamLeaderRepoPort):
             team_leader = TeamLeader.objects.get(pk=tl_pk)
             return DataConverters.to_team_leader_entity(team_leader)
         except TeamLeader.DoesNotExist:
-            raise TeamLeader.DoesNotExist
+            return None
 
-    def save_team_leader(self, team_pk: int, employee_pk: int):
-        team_leader = TeamLeader(leader_id=employee_pk, team_id=team_pk)
+    def save_team_leader(self, tl_entity: TeamLeaderEntity):
+        team_leader = TeamLeader(
+            id=tl_entity.id,
+            leader_id=tl_entity.leader.id,
+            team_id=tl_entity.team.id,
+            created_at=tl_entity.created_at,
+            updated_at=tl_entity.updated_at
+        )
         team_leader.save()
         team_leader.refresh_from_db()
         return DataConverters.to_team_leader_entity(team_leader)

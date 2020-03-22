@@ -1,8 +1,7 @@
 from domain.usecases.repositories.employee_repository import EmployeeRepoPort
 from domain.entities.employee import EmployeeEntity
-from backend_api.models import Employee, Team
-from backend_api.models import WorkTime
-from .helpers import DataConverters
+from backend_api.models import Employee
+from backend_api.utilities import DataConverters
 
 
 class EmployeeRepoPortImp(EmployeeRepoPort):

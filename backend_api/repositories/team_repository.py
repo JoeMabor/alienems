@@ -1,7 +1,7 @@
 from domain.usecases.repositories.team_repository import TeamRepoPort
 from domain.entities.team import TeamEntity
 from backend_api.models import Team, TeamLeader
-from .helpers import DataConverters
+from backend_api.utilities import DataConverters
 
 
 class TeamRepoPortImp(TeamRepoPort):

@@ -48,7 +48,7 @@ class ManageTeamView(viewsets.ViewSet):
 
     def update(self, request, pk):
         print("Update a team")
-        serializer = data_serializers.CreateTeamSerializer(data=request.data)
+        serializer = data_serializers.UpdateTeamSerializer(data=request.data)
         if serializer.is_valid(raise_exception=False):
             team_entity = serializer.save()
             new_team_entity = self.controller.update_team(team_entity=team_entity)
@@ -166,7 +166,7 @@ class TeamLeaderView(viewsets.ViewSet):
 
     def update(self, request, pk):
         print("Update a team")
-        serializer = data_serializers.TeamLeaderOrEmployeeRequestDataSerializer(data=request.data)
+        serializer = data_serializers.UpdateTeamLeaderRequestDataSerializer(data=request.data)
         if serializer.is_valid(raise_exception=False):
             request_data = serializer.save()
             try:
@@ -175,6 +175,7 @@ class TeamLeaderView(viewsets.ViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except (
                     domain_exceptions.TeamDoesNotExist,
+                    domain_exceptions.ObjectEntityDoesNotExist,
                     domain_exceptions.EmployeeDoesNotExist
             )as e:
                 return Response(e.message, status=status.HTTP_400_BAD_REQUEST)

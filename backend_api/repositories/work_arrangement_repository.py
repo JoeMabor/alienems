@@ -2,7 +2,7 @@ from django.db.models import Q
 from domain.usecases.repositories.work_arrangement_repository import WorkArrangementRepoPort
 from domain.entities.work_arrangment import WorkArrangementEntity
 from ..models import WorkArrangement
-from .helpers import DataConverters
+from backend_api.utilities import DataConverters
 
 
 class WorkArrangementRepoImpl(WorkArrangementRepoPort):

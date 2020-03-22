@@ -1,8 +1,7 @@
 from domain.usecases.repositories.team_employees_repository import TeamEmployeeRepoPort
 from domain.entities.team_employee import TeamEmployeeEntity
 from ..models import TeamEmployee
-from ..models import Team
-from .helpers import DataConverters
+from backend_api.utilities import DataConverters
 from django.db.models import Q
 
 
@@ -27,24 +26,20 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
         team_employees = TeamEmployee.objects.all()
 
         for te_model in team_employees:
-            team_employees_entities.append(
-                TeamEmployeeEntity(
-                    id=te_model.id,
-                    team=DataConverters.to_team_entity(te_model.team),
-                    employee=DataConverters.to_employee_entity(te_model.employee)
-            ))
+            team_employees_entities.append(DataConverters.to_team_employee_entity(te_model))
         return team_employees_entities
 
     def retrieve_team_employees(self, te_pk: int):
-        team_employee = TeamEmployee.objects.get(pk=te_pk)
-        return TeamEmployeeEntity(
-                    id=team_employee.id,
-                    team=DataConverters.to_team_entity(team_employee.team),
-                    employee=DataConverters.to_employee_entity(team_employee.employee)
-                )
+        te_model = TeamEmployee.objects.get(pk=te_pk)
+        return DataConverters.to_team_employee_entity(te_model)
 
-    def save_team_employee(self, team_pk: int, employee_pk: int):
-        te_model = TeamEmployee(team_id=team_pk, employee_id=employee_pk)
+    def save_team_employee(self, te_entity: TeamEmployeeEntity):
+        te_model = TeamEmployee(
+            team_id=te_entity.team.id,
+            employee_id=te_entity.employee.id,
+            created_at=te_entity.created_at,
+            updated_at=te_entity.updated_at
+        )
         te_model.save()
         print("Saved")
         te_model.refresh_from_db()

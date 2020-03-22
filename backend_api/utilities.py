@@ -7,9 +7,9 @@ from domain.entities.work_arrangment import WorkArrangementEntity
 from backend_api.models import Team
 from backend_api.models import Employee
 from backend_api.models import WorkTime
-from ..models import WorkArrangement
-from ..models import TeamEmployee
-from ..models import TeamLeader
+from backend_api.models import WorkArrangement
+from backend_api.models import TeamEmployee
+from backend_api.models import TeamLeader
 
 
 # helper methods
@@ -62,7 +62,9 @@ class DataConverters:
         team_model = Team(
             id=team_entity.id,
             name=team_entity.name,
-            description=team_entity.description
+            description=team_entity.description,
+            created_at=team_entity.created_at,
+            updated_at=team_entity.updated_at
         )
         if team_entity.has_a_leader:
             # check if a team has a leader
@@ -130,7 +132,9 @@ class DataConverters:
         return TeamLeaderEntity(
             id=team_leader.id,
             leader=DataConverters.to_employee_entity(team_leader.leader),
-            team=DataConverters.to_team_entity(team_leader.team)
+            team=DataConverters.to_team_entity(team_leader.team),
+            created_at=team_leader.created_at,
+            updated_at=team_leader.updated_at
         )
 
     @staticmethod
@@ -138,7 +142,9 @@ class DataConverters:
         return TeamEmployeeEntity(
             id=te_model.id,
             team=DataConverters.to_team_entity(te_model.team),
-            employee=DataConverters.to_employee_entity(te_model.employee)
+            employee=DataConverters.to_employee_entity(te_model.employee),
+            created_at=te_model.created_at,
+            updated_at=te_model.updated_at
         )
 
 

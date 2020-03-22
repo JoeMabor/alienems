@@ -28,7 +28,7 @@ class TeamLeaderRepoPort(ABC):
         pass
 
     @abstractmethod
-    def save_team_leader(self, team_pk: int, employee_pk):
+    def save_team_leader(self, tl_entity: TeamLeaderEntity):
         """
         Create/assign team leader
         :param team_pk:

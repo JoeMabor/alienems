@@ -5,6 +5,7 @@ backend_api django ORM models that map directly to database.
 
 
 from django.db import models
+import datetime
 
 
 class Employee(models.Model):
@@ -23,8 +24,8 @@ class Employee(models.Model):
     is_a_leader = models.BooleanField(default=False)
     # default employee type is full time
     employee_type = models.PositiveIntegerField(choices=EmployeeTYPES, default=1)
-    created_at = models.DateTimeField(auto_now=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    updated_at = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return self.name
@@ -36,17 +37,12 @@ class Team(models.Model):
     """
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
-    # set to null if an employee who is the team leader is deleted before it can be assigned another leader
-    leader = models.ForeignKey(Employee, related_name="leader", on_delete=models.SET_NULL, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    updated_at = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         # if leader is null leader is not shown in string represention of Team mode
-        leader = "No group leader"
-        if self.leader:
-            leader = self.leader
-        return F"{self.name} -> {leader}"
+        return F"{self.name}"
 
 
 class TeamLeader(models.Model):
@@ -55,8 +51,8 @@ class TeamLeader(models.Model):
     """
     leader = models.ForeignKey(Employee, related_name="teamLeader", on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    updated_at = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return F"{self.leader} -> {self.team}"
@@ -68,8 +64,8 @@ class TeamEmployee(models.Model):
     """
     employee = models.ForeignKey(Employee, related_name="teamEmployee", on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    updated_at = models.DateTimeField(default=datetime.datetime.now())
 
     def __str__(self):
         return F"{self.employee} -> {self.team}"

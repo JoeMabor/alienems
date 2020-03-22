@@ -3,8 +3,10 @@ from .repositories.team_leader_repository import TeamLeaderRepoPort
 from .repositories.team_repository import TeamRepoPort
 from .repositories.employee_repository import EmployeeRepoPort
 import domain.entities.validators as domain_validators
+from domain.entities.team_leader import TeamLeaderEntity
 from .data_models.manage_team_data_models import TeamLeaderOrEmployeeRequestData
-
+from .data_models.manage_team_data_models import UpdateTeamLeaderRequestData
+import datetime
 
 class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
     def __init__(self, team_leader_repo: TeamLeaderRepoPort, team_repo: TeamRepoPort, employee_repo: EmployeeRepoPort):
@@ -26,18 +28,24 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         :return:
         """
         # check if team exists in repository
-        if self._team_repo.team_exists(team_pk=request_data.team_id):
+        team = self._team_repo.team_exists(team_pk=request_data.team_id)
+        if team:
             # team is in repository
             if self._team_repo.has_a_leader(team_pk=request_data.team_id):
                 raise domain_validators.TeamHasALeader()
             # check is employee exist in repository before assigning him/her as a leader
             employee = self._employee_repo.employee_exists(employee_pk=request_data.employee_id)
             if employee:
-                tl_entity = self._team_leader_repo.save_team_leader(team_pk=request_data.team_id,
-                                                                    employee_pk=request_data.employee_id)
+                # create new team
+                new_tl_entity = TeamLeaderEntity(
+                    leader=employee,
+                    team=team,
+                    created_at=datetime.datetime.now(),
+                    updated_at=datetime.datetime.now()
+                )
+                saved_tl_entity = self._team_leader_repo.save_team_leader(new_tl_entity)
                 employee.is_a_leader = True
-                self._employee_repo.save(employee_entity=employee)
-                return tl_entity
+                return saved_tl_entity
 
             else:
                 raise domain_validators.EmployeeDoesNotExist()
@@ -52,23 +60,32 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         """
         return self._team_leader_repo.retrieve_team_leader(tl_pk)
 
-    def change_team_leader(self, request_data: TeamLeaderOrEmployeeRequestData):
+    def change_team_leader(self, request_data: UpdateTeamLeaderRequestData):
         """
         Change  a leader of a team to a new leader
         :param request_data:
         :return:
         """
         # check if team exists in repository
-        if self._team_repo.team_exists(team_pk=request_data.team_id):
-            # team is in repository
-            # check is employee exist in repository before assigning him/her as a leader
-            employee = self._employee_repo.employee_exists(employee_pk=request_data.employee_id)
-            if employee:
-                tl_entity = self._team_leader_repo.save_team_leader(team_pk=request_data.team_id,
-                                                                    employee_pk=request_data.employee_id)
-                return tl_entity
-            else:
-                raise domain_validators.EmployeeDoesNotExist()
-        else:
+        old_team_leader = self._team_leader_repo.retrieve_team_leader(request_data.id)
+        if old_team_leader is None:
+            raise domain_validators.ObjectEntityDoesNotExist("Team leader does not exist")
+        team = self._team_repo.team_exists(team_pk=request_data.team_id)
+        if team is None:
             raise domain_validators.TeamDoesNotExist()
+        # team is in repository
+        # check is employee exist in repository before assigning him/her as a leader
+        employee = self._employee_repo.employee_exists(employee_pk=request_data.employee_id)
+        if employee is None:
+            raise domain_validators.EmployeeDoesNotExist()
+        updated_tl_entity = TeamLeaderEntity(
+            id=old_team_leader.id,
+            leader=employee,
+            team=team,
+            created_at=old_team_leader.created_at,
+            updated_at=datetime.datetime.now()
+        )
+        tl_entity = self._team_leader_repo.save_team_leader(updated_tl_entity)
+        return tl_entity
+
 

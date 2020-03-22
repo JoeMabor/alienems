@@ -59,16 +59,14 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
     def create_employee(self, request_data: CreateEmployeeRequestData):
         """
         Create new employee along with employee work work arrangement amd work time is employee is part time
-        :param employee_entity: EmployeeEntity
-        :param work_arrangement: WorkArrangementEntity
-        :param team_pk:
+        :param request_data:
         :return:
         """
         # todo: Refactor the code to adhere to DRY
         # check if new employee DI exist in the database
         if self._employee_repo.is_employee_id_unique(employee_id=request_data.employee_id):
             team = self._team_repo.team_exists(request_data.team_id)
-            employee_entity = self._to_employee_entity(request_data)
+            employee_entity = self._create_new_employee_entity(request_data)
             if team:
                 if employee_entity.is_part_time():
                     if request_data.work_arrangement is None:
@@ -139,12 +137,15 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         # part time employees work is work arrangement percentage of 40 hours
         return int((percentage/100) * 40)
 
-    def _to_employee_entity(self, request_data: CreateEmployeeRequestData):
+    def _create_new_employee_entity(self, request_data: CreateEmployeeRequestData):
+        """Create new employee entity"""
         return EmployeeEntity(
             name=request_data.name,
             employee_id=request_data.employee_id,
             employee_type=request_data.employee_type,
-            hourly_rate=request_data.hourly_rate
+            hourly_rate=request_data.hourly_rate,
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
 
         )
 
