@@ -34,7 +34,7 @@ class ManageEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def update_employee(self, request_data: request_data_models.UpdateEmployeeMRequestData):
+    def update_employee(self, request_data: request_data_models.UpdateEmployeeRequestData):
         """
         Update changes to an employee
         :param request_data: UpdateEmployeeMRequestData

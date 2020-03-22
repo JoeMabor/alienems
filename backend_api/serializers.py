@@ -73,7 +73,7 @@ class UpdateEmployeeRequestSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return request_data_models.UpdateEmployeeMRequestData(**validated_data)
+        return request_data_models.UpdateEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """
@@ -252,7 +252,7 @@ class TeamLeaderOrEmployeeRequestDataSerializer(serializers.Serializer):
         :param validated_data:
         :return:
         """
-        return request_data_models.TeamLeaderOrEmployeeRequestData(**validated_data)
+        return request_data_models.CreateTeamLeaderOrEmployeeRequestData(**validated_data)
 
     def update(self, instance, validated_data):
         """

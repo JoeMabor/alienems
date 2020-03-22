@@ -48,7 +48,7 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
     def retrieve_employee(self, employee_pk: int):
         return self._employee_repo.retrieve_by_id(employee_pk=employee_pk)
 
-    def update_employee(self, request_data: request_data_models.UpdateEmployeeMRequestData):
+    def update_employee(self, request_data: request_data_models.UpdateEmployeeRequestData):
         employee_entity = self._employee_repo.retrieve_by_id(employee_pk=request_data.id)
         employee_entity.name = request_data.name
         employee_entity.employee_id = request_data.employee_id

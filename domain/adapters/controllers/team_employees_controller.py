@@ -25,7 +25,7 @@ class TeamEmployeeController:
         """
         return self._use_case.retrieve_team_employee(te_pk)
 
-    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.CreateTeamLeaderOrEmployeeRequestData):
         """
         map request to assign assign a employee to a team
         :param request_data:

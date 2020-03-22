@@ -21,7 +21,7 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         """
         return self._team_leader_repo.retrieve_all_team_leaders()
 
-    def assign_team_leader(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
+    def assign_team_leader(self, request_data: request_data_models.CreateTeamLeaderOrEmployeeRequestData):
         """
         Assign team leader to a team without a leader
         :param request_data:

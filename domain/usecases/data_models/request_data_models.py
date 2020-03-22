@@ -26,7 +26,7 @@ class CreateEmployeeRequestData:
         self.work_arrangement = work_arrangement
 
 
-class UpdateEmployeeMRequestData:
+class UpdateEmployeeRequestData:
     """
     Data model for employee update requests. Can only update employee name, ID and hourly rate
 
@@ -80,7 +80,7 @@ class UpdateTeamRequestData:
         self.description = description
 
 
-class TeamLeaderOrEmployeeRequestData:
+class CreateTeamLeaderOrEmployeeRequestData:
     """
     Data request for assigning  a team leader, adding and removing team employee
     """

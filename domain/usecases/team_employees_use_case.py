@@ -29,7 +29,7 @@ class TeamEmployeeUSeCase(TeamEmployeeUseCasePort):
     def retrieve_team_employee(self, te_pk: int):
         return self._team_employee_repo.retrieve_team_employees(te_pk)
 
-    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.CreateTeamLeaderOrEmployeeRequestData):
         """
         Add new team employee to repository. If a team an employee is being added to doesn't have a leader, the
         employee becomes a leader

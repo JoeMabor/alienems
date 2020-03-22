@@ -27,7 +27,7 @@ class TeamEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def add_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
+    def add_team_employee(self, request_data: request_data_models.CreateTeamLeaderOrEmployeeRequestData):
         """
          Assign team employee to a team that doesn't have a team employee
         :param request_data:
@@ -36,5 +36,5 @@ class TeamEmployeeUseCasePort(ABC):
         pass
 
     @abstractmethod
-    def remove_team_employee(self, request_data: request_data_models.TeamLeaderOrEmployeeRequestData):
+    def remove_team_employee(self, request_data: request_data_models.CreateTeamLeaderOrEmployeeRequestData):
         pass
