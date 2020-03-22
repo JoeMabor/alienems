@@ -24,6 +24,10 @@ class TeamLeaderEntity:
     def id(self):
         return self._id
 
+    @id.setter
+    def id(self, id: int):
+        self._id = id
+
     @property
     def team(self):
         return self._team

@@ -8,7 +8,7 @@ import datetime
 
 
 class ManageTeamUseCase(ManageTeamUseCasePort):
-    def __init__(self, team_repo: TeamRepoPort, employee_repo:EmployeeRepoPort):
+    def __init__(self, team_repo: TeamRepoPort, employee_repo: EmployeeRepoPort):
         self._team_repo = team_repo
         self._employee_repo = employee_repo
 
@@ -16,7 +16,11 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
         return self._team_repo.retrieve_all()
 
     def retrieve_team(self, team_pk: int):
-        return self._team_repo.retrieve_by_id(team_pk=team_pk)
+        team = self._team_repo.retrieve_by_id(team_pk=team_pk)
+        if team:
+            return team
+        else:
+            raise ObjectEntityDoesNotExist("Team with given id does not exist")
 
     def create_team(self, request_data: request_data_models.CreateTeamRequestData):
         """
@@ -38,13 +42,15 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
 
         return self._team_repo.save(team_entity)
 
-    def update_team(self, request_data:  request_data_models.CreateTeamRequestData):
+    def update_team(self, request_data:  request_data_models.UpdateTeamRequestData):
         """
         Interface
         :param request_data:
         :return:
         """
         old_team = self._team_repo.retrieve_by_id(request_data.id)
+        if old_team is None:
+            raise ObjectEntityDoesNotExist("Team doesnt exists")
         old_team.name = request_data.name
         old_team.description = request_data.description
         old_team.updated_at = datetime.datetime.now()
@@ -60,3 +66,4 @@ class ManageTeamUseCase(ManageTeamUseCasePort):
             return self._team_repo.delete(team_pk)
         else:
             raise ObjectEntityDoesNotExist("Team doesnt exists")
+

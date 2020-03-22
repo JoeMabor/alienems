@@ -28,6 +28,10 @@ class WorkArrangementEntity:
     def id(self):
         return self._id
 
+    @id.setter
+    def id(self, id: int):
+        self._id = id
+
     @property
     def percent(self):
         return self._percent

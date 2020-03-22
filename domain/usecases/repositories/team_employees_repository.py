@@ -19,10 +19,10 @@ class TeamEmployeeRepoPort(ABC):
         pass
 
     @abstractmethod
-    def retrieve_team_employees(self, team_pk: int):
+    def retrieve_team_employees(self, te_pk: int):
         """
         Retrieving team employee instance using primary key (te_pk)
-        :param team_pk: int
+        :param te_pk: int
         :return: TeamEmployeeEntity
         """
         pass
@@ -64,7 +64,7 @@ class TeamEmployeeRepoPort(ABC):
     @abstractmethod
     def employee_has_more_teams(self, employee_pk):
         """
-        Check if a team employee of a given team employee id exist in repository
+        Check if a team employee of a given  employee id exist in repository
         :param employee_pk:
         :return:
         """
