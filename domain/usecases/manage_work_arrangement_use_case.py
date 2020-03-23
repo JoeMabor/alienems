@@ -9,7 +9,9 @@ from .repositories.team_leader_repository import TeamLeaderRepoPort
 from ..entities.work_arrangment import WorkArrangementEntity
 from ..entities.work_time import WorkTimeEntity
 from ..entities.team_employee import TeamEmployeeEntity
+from ..entities.team_leader import TeamLeaderEntity
 import domain.entities.validators as domain_validators
+import datetime
 
 
 class WorkArrangementUseCase(WorkArrangementUseCasePort):
@@ -40,7 +42,10 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         return self._work_arrangement_repo.retrieve_all()
 
     def retrieve_work_arrangement(self, wa_pk):
-        return self._work_arrangement_repo.retrieve_by_pk(wa_pk)
+        work_arrangement = self._work_arrangement_repo.retrieve_by_pk(wa_pk)
+        if work_arrangement is None:
+            raise domain_validators.ObjectEntityDoesNotExist("Work arrangement does not exist")
+        return work_arrangement
 
     def add_work_arrangement(self, request_data: request_data_models.CreateWorkArrangementData):
         """
@@ -50,7 +55,7 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         """
         employee = self._employee_repo.employee_exists(request_data.employee_id)
         if employee is None:
-            raise domain_validators.EmployeeDoesNotExist()
+            raise domain_validators.ObjectEntityDoesNotExist("Employee does not exist")
         # check if employee is part time: can not add multiple work arrangement for full time employees
         if not employee.is_part_time():
             raise domain_validators.MultipleWorksForFullTimeEmployee()
@@ -60,7 +65,6 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
             raise domain_validators.TeamDoesNotExist()
 
         total_percent = self._work_arrangement_repo.get_employee_work_arrangements_percent(employee_pk=employee.id)
-        print(F"Total percent: {total_percent}")
         if total_percent + request_data.percent > 100:
             raise domain_validators.Max40HoursExceeded()
 
@@ -71,11 +75,22 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
                 raise domain_validators.MultipleWorkArrangementInOneTeam()
         else:
             # add team employee if an employee is not a team employee
-            self._team_employee_repo.save_team_employee(team_pk=team.id, employee_pk=employee.id)
+            new_te_entity = TeamEmployeeEntity(
+                employee=employee,
+                team=team,
+                created_at=datetime.datetime.now(),
+                updated_at=datetime.datetime.now()
+            )
+            self._team_employee_repo.save_team_employee(new_te_entity)
             # check if team has a leader otherwise make an employee a team leader
             if team.has_a_leader:
-                self._team_leader_repo.save_team_leader(team_pk=team.id,
-                                                        employee_pk=employee.id)
+                new_tl_entity = TeamLeaderEntity(
+                    leader=employee,
+                    team=team,
+                    created_at=datetime.datetime.now(),
+                    updated_at=datetime.datetime.now()
+                )
+                self._team_leader_repo.save_team_leader(new_tl_entity)
 
         # create work arrangement entity
         work_arrangement = WorkArrangementEntity(
@@ -104,7 +119,7 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
 
         employee = self._employee_repo.employee_exists(request_data.employee_id)
         if employee is None:
-            raise domain_validators.EmployeeDoesNotExist()
+            raise domain_validators.ObjectEntityDoesNotExist("Employee doesn't exist")
         # check if employee is part time: can not add multiple work arrangement for full time employees
         if not employee.is_part_time():
             raise domain_validators.MultipleWorksForFullTimeEmployee()
@@ -113,8 +128,7 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         if team is None:
             raise domain_validators.TeamDoesNotExist()
         total_percent = self._work_arrangement_repo.get_employee_work_arrangements_percent(employee_pk=employee.id)
-        print(F"Total percent: {total_percent}")
-        if total_percent + (abs(work_arrangement_entity.percent - request_data.percent)) > 100:
+        if (total_percent - work_arrangement_entity.percent) + request_data.percent > 100:
             raise domain_validators.Max40HoursExceeded()
 
         # check if an employee is a team employee
@@ -126,11 +140,22 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
                 raise domain_validators.MultipleWorkArrangementInOneTeam()
         else:
             # add team employee if an employee is not a team employee
-            self._team_employee_repo.save_team_employee(team_pk=team.id, employee_pk=employee.id)
+            new_te_entity = TeamEmployeeEntity(
+                employee=employee,
+                team=team,
+                created_at=datetime.datetime.now(),
+                updated_at=datetime.datetime.now()
+            )
+            self._team_employee_repo.save_team_employee(new_te_entity)
             # check if team has a leader otherwise make an employee a team leader
             if team.has_a_leader:
-                self._team_leader_repo.save_team_leader(team_pk=team.id,
-                                                        employee_pk=employee.id)
+                new_tl_entity = TeamLeaderEntity(
+                    leader=employee,
+                    team=team,
+                    created_at=datetime.datetime.now(),
+                    updated_at=datetime.datetime.now()
+                )
+                self._team_leader_repo.save_team_leader(new_tl_entity)
 
         # create updated work arrangement entity
         work_arrangement = WorkArrangementEntity(
@@ -142,9 +167,6 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         )
         # save new work arrangement
         new_wa_entity = self._work_arrangement_repo.save(work_arrangement)
-        print(F"Total percent: {total_percent}")
-        print(F"work arrangement id: {new_wa_entity.id}")
-        print(F"work arrangement id: {new_wa_entity.percent}")
         # get and update respective work time
         work_time = self._work_time_repo.retrieve_by_work_arrangement_pk(work_arrangement_pk=new_wa_entity.id)
         work_hours = WorkArrangementEntity.calculate_work_time_hours(request_data.percent)
@@ -160,4 +182,9 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         return new_wa_entity
 
     def delete_work_arrangement(self, wa_pk):
+        work_arrangement = self._work_arrangement_repo.retrieve_by_pk(wa_pk)
+        if work_arrangement is None:
+            raise domain_validators.ObjectEntityDoesNotExist("Work arrangement does not exist")
         return self._work_arrangement_repo.delete(wa_pk=wa_pk)
+
+

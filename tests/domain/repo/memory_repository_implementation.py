@@ -225,9 +225,12 @@ class WorkArrangementRepository(WorkArrangementRepoPort):
         return wa_entity
 
     def delete(self, wa_pk: int):
-        wa_entity = self.db.work_arrangements[wa_pk]
-        self.db.work_arrangements.pop(wa_pk)
-        return wa_entity
+        try:
+            wa_entity = self.db.work_arrangements[wa_pk]
+            self.db.work_arrangements.pop(wa_pk)
+            return wa_entity
+        except KeyError:
+            return None
 
     def get_employee_work_arrangements_percent(self, employee_pk: int):
         total_percent = 0
@@ -240,8 +243,7 @@ class WorkArrangementRepository(WorkArrangementRepoPort):
         for work_arrangement in self.db.work_arrangements.values():
             if work_arrangement.team.id == team_pk and work_arrangement.employee.id == employee_pk:
                 return True
-            else:
-                return False
+        return False
 
     def work_arrangement_exists(self, wa_pk: int):
         try:

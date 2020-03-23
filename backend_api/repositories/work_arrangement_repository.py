@@ -22,7 +22,7 @@ class WorkArrangementRepoImpl(WorkArrangementRepoPort):
             work_arrangement = WorkArrangement.objects.get(pk=wa_pk)
             return DataConverters.to_work_arrangement_entity(work_arrangement)
         except WorkArrangement.DoesNotExist:
-            raise WorkArrangement.DoesNotExist
+            raise None
 
     def save(self, wa_entity: WorkArrangementEntity):
 

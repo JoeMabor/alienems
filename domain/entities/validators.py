@@ -135,7 +135,7 @@ class MultipleWorkArrangementInOneTeam(Exception):
 
 
 class Max40HoursExceeded(Exception):
-    def __init__(self, message="Employee work arrangement percent can exceed 40 max work hours"):
+    def __init__(self, message="Employee work arrangement percent can not exceed 40 max work hours"):
         super(Max40HoursExceeded, self).__init__(message)
         self.message = message
 
