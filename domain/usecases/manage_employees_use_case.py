@@ -48,10 +48,15 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         return self._employee_repo.retrieve_all()
 
     def retrieve_employee(self, employee_pk: int):
-        return self._employee_repo.retrieve_by_id(employee_pk=employee_pk)
+        employee_entity = self._employee_repo.retrieve_by_id(employee_pk=employee_pk)
+        if employee_entity is None:
+            raise ObjectEntityDoesNotExist("Employee does not exist")
+        return employee_entity
 
     def update_employee(self, request_data: request_data_models.UpdateEmployeeRequestData):
         employee_entity = self._employee_repo.retrieve_by_id(employee_pk=request_data.id)
+        if employee_entity is None:
+            raise ObjectEntityDoesNotExist("Employee does not exist")
         employee_entity.name = request_data.name
         employee_entity.employee_id = request_data.employee_id
         employee_entity.hourly_rate = request_data.hourly_rate
@@ -67,54 +72,53 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
         # check if new employee DI exist in the database
         if self._employee_repo.is_employee_id_unique(employee_id=request_data.employee_id) is False:
             raise EmployeeIDIsNotUnique()
-
         team = self._team_repo.team_exists(request_data.team_id)
+        if team is None:
+            raise domain_validators.TeamDoesNotExist()
+
         employee_entity = self._create_new_employee_entity(request_data)
-        if team:
-            if employee_entity.is_part_time():
-                if request_data.work_arrangement is None:
-                    raise WorkArrangementPercentageNull()
-                work_arrangement = WorkArrangementEntity(
-                    percent=request_data.work_arrangement,
-                    team=team
-                )
-                new_employee = self._add_part_time_employee(employee_entity=employee_entity,
-                                                            work_arrangement=work_arrangement)
-            else:
-                new_employee = self._add_full_time_employee(employee_entity, team)
-            # add team employee
-            # check if team exist and team employee
-            new_te_entity = TeamEmployeeEntity(
-                employee=new_employee,
+        if employee_entity.is_part_time():
+            if request_data.work_arrangement is None:
+                raise WorkArrangementPercentageNull()
+            work_arrangement = WorkArrangementEntity(
+                percent=request_data.work_arrangement,
+                team=team
+            )
+            new_employee = self._add_part_time_employee(employee_entity=employee_entity,
+                                                        work_arrangement=work_arrangement)
+        else:
+            new_employee = self._add_full_time_employee(employee_entity, team)
+        # add team employee
+        # check if team exist and team employee
+        new_te_entity = TeamEmployeeEntity(
+            employee=new_employee,
+            team=team,
+            created_at=datetime.datetime.now(),
+            updated_at=datetime.datetime.now()
+        )
+        self._team_employee_repo.save_team_employee(new_te_entity)
+        # check if team has a leader
+        if team.has_a_leader:
+            # team has a leader already
+            pass
+        else:
+            # no team leader, make new team member a leader
+            new_tl_entity = TeamLeaderEntity(
+                leader=new_employee,
                 team=team,
                 created_at=datetime.datetime.now(),
                 updated_at=datetime.datetime.now()
             )
-            self._team_employee_repo.save_team_employee(new_te_entity)
-            # check if team has a leader
-            if team.has_a_leader:
-                # team has a leader already
-                pass
-            else:
-                # no team leader, make new team member a leader
-                new_tl_entity = TeamLeaderEntity(
-                    leader=new_employee,
-                    team=team,
-                    created_at=datetime.datetime.now(),
-                    updated_at=datetime.datetime.now()
-                )
-                tl_entity = self._team_leader_repo.save_team_leader(new_tl_entity)
-                new_employee.is_a_leader = True
-            return new_employee
-        else:
-            raise domain_validators.TeamDoesNotExist()
+            tl_entity = self._team_leader_repo.save_team_leader(new_tl_entity)
+            new_employee.is_a_leader = True
+        return new_employee
 
     def delete_employee(self, employee_pk: int):
-        if self._employee_repo.employee_exists(employee_pk):
-            # delete
-            return self._employee_repo.delete(employee_pk)
-        else:
+        employee = self._employee_repo.employee_exists(employee_pk)
+        if employee is None:
             raise ObjectEntityDoesNotExist("Employee doesnt exists")
+            # delete
+        return self._employee_repo.delete(employee_pk)
 
     def _add_part_time_employee(self, employee_entity: EmployeeEntity, work_arrangement: WorkArrangementEntity):
         employee = self._employee_repo.save(employee_entity)
@@ -144,10 +148,6 @@ class ManageEmployeeUseCase(ManageEmployeeUseCasePort):
             wt_model = self._work_time_repo.save_work_time(work_time)
             employee.set_work_time_hours(wt_model.hours)
         return employee
-
-    def _calculate_work_time_hours(self, percentage):
-        # part time employees work is work arrangement percentage of 40 hours
-        return int((percentage/100) * 40)
 
     def _create_new_employee_entity(self, request_data: request_data_models.CreateEmployeeRequestData):
         """Create new employee entity"""

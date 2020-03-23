@@ -44,8 +44,12 @@ class TeamRepository(TeamRepoPort):
         return team_entities
 
     def retrieve_by_id(self, team_pk):
+
         try:
             team = self.db.teams[team_pk]
+            for tl_entity in self.db.team_leaders.values():
+                if tl_entity.team.id == team_pk:
+                    team.leader = tl_entity.leader
             return team
         except KeyError:
             return None
@@ -64,15 +68,18 @@ class TeamRepository(TeamRepoPort):
     def team_exists(self, team_pk: int):
         try:
             team = self.db.teams[team_pk]
+            for tl_entity in self.db.team_leaders.values():
+                if tl_entity.team.id == team_pk:
+                    team.leader = tl_entity.leader
             return team
         except KeyError:
             return None
 
     def has_a_leader(self, team_pk: int):
-        if self.db.teams[team_pk].leader:
-            return True
-        else:
-            return False
+        for tl_entity in self.db.team_leaders.values():
+            if tl_entity.team.id == team_pk:
+                return True
+        return False
 
 
 class EmployeeRepository(EmployeeRepoPort):
@@ -100,7 +107,7 @@ class EmployeeRepository(EmployeeRepoPort):
 
     def delete(self, employee_pk: int):
         team = self.db.employees[employee_pk]
-        self.db.teams.pop(employee_pk)
+        self.db.employees.pop(employee_pk)
         return team
 
     def employee_exists(self, employee_pk):
@@ -194,7 +201,7 @@ class TeamEmployeeRepository(TeamEmployeeRepoPort):
         return False
 
 
-class WorkArrangement(WorkArrangementRepoPort):
+class WorkArrangementRepository(WorkArrangementRepoPort):
     def __init__(self, db: MemoryDB):
         self.db = db
 
@@ -214,12 +221,12 @@ class WorkArrangement(WorkArrangementRepoPort):
     def save(self, wa_entity: WorkArrangementEntity):
         new_id = len(self.db.work_arrangements) + 1
         wa_entity.id = new_id
-        self.db.team_employees[new_id] = wa_entity
+        self.db.work_arrangements[new_id] = wa_entity
         return wa_entity
 
     def delete(self, wa_pk: int):
         wa_entity = self.db.work_arrangements[wa_pk]
-        self.db.team_employees.pop(wa_pk)
+        self.db.work_arrangements.pop(wa_pk)
         return wa_entity
 
     def get_employee_work_arrangements_percent(self, employee_pk: int):
@@ -264,7 +271,7 @@ class WorkTimeRepository(WorkTimeRepoPort):
     def save_work_time(self, wt_entity: WorkTimeEntity):
         new_id = len(self.db.work_arrangements) + 1
         wt_entity.id = new_id
-        self.db.team_employees[new_id] = wt_entity
+        self.db.work_times[new_id] = wt_entity
         return wt_entity
 
     def retrieve_by_work_arrangement_pk(self, work_arrangement_pk):

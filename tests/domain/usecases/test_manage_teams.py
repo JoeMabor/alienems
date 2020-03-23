@@ -1,13 +1,12 @@
 import unittest
 from tests.domain.repo.memory_repository_implementation import MemoryDB
-from tests.domain.repo.memory_repository_implementation import TeamRepository
-from tests.domain.repo.memory_repository_implementation import EmployeeRepository
 from domain.entities.employee import EmployeeEntity
 from domain.entities.team import TeamEntity
-from domain.usecases.manage_teams_use_case import ManageTeamUseCase
+from tests.domain.app_config import UnittestsUseCasesFactory
 import domain.entities.validators as domain_exceptions
 import domain.usecases.data_models.request_data_models as request_data_models
 import datetime
+import copy
 
 
 class TestManageTeamUseCase(unittest.TestCase):
@@ -54,10 +53,10 @@ class TestManageTeamUseCase(unittest.TestCase):
         employees = {
             1: self.employee
         }
-        db = MemoryDB(teams=teams, employees=employees)
-        team_repo = TeamRepository(db)
-        employee_repo = EmployeeRepository(db)
-        self.use_case = ManageTeamUseCase(team_repo=team_repo, employee_repo=employee_repo)
+        self.db = MemoryDB(teams=teams, employees=employees)
+        # copy object to avoid using the same db object in all test cases
+        use_cases = UnittestsUseCasesFactory(db=copy.deepcopy(self.db))
+        self.use_case = use_cases.use_cases.manage_teams_use_case()
 
     def test_retrieve_all_teams(self):
         """Retrieve all teams in the repository"""
@@ -135,10 +134,6 @@ class TestManageTeamUseCase(unittest.TestCase):
     def test_delete_unavailable_team(self):
         with self.assertRaises(domain_exceptions.ObjectEntityDoesNotExist):
             self.use_case.delete_team(team_pk=3)
-
-
-
-
 
 
 if __name__ == '__main__':
