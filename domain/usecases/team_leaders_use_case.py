@@ -58,7 +58,10 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         :param tl_pk:
         :return:
         """
-        return self._team_leader_repo.retrieve_team_leader(tl_pk)
+        tl_entity = self._team_leader_repo.retrieve_team_leader(tl_pk)
+        if tl_entity is None:
+            raise domain_validators.ObjectEntityDoesNotExist("Team leader does not exist")
+        return tl_entity
 
     def change_team_leader(self, request_data: request_data_models.UpdateTeamLeaderRequestData):
         """

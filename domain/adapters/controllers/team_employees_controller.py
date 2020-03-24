@@ -1,6 +1,6 @@
 """
-Controller for  team employees use case. Acts as boundary layer that convert requests and responses to and from
-TeamLeaderUseCase and the view.
+Controller for  team employees use case. AActs as boundary layer that validates requests and map them to and from
+ManageEmployeeUseCase and the view.
 """
 from ...usecases.ports.team_employee_port import TeamEmployeeUseCasePort
 import domain.usecases.data_models.request_data_models as request_data_models

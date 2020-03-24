@@ -1,5 +1,5 @@
 """
-Controller for manage employee use case. Acts as boundary layer that convert requests and responses to and from
+Controller for manage employee use case. Acts as boundary layer that validates requests and map them to and from
 ManageEmployeeUseCase and the view.
 """
 from ...usecases.ports.manage_employees_ports import ManageEmployeeUseCasePort
@@ -23,6 +23,7 @@ class ManageEmployeesController:
         :param employee_pk: team primary key of a team
         :return:
         """
+
         return self._use_case.retrieve_employee(employee_pk=employee_pk)
 
     def create_employee(self, request_data: request_data_models.CreateEmployeeRequestData):

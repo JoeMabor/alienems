@@ -1,6 +1,6 @@
 """
-Controller for manage team use case. Acts as boundary layer that convert requests and responses to and from
-ManageTeamUseCase and the view.
+Controller for manage team use case. Acts as boundary layer that validates requests and map them to and from
+ManageEmployeeUseCase and the view.
 """
 from ...usecases.ports.manage_teams_ports import ManageTeamUseCasePort
 import domain.usecases.data_models.request_data_models as request_data_models
