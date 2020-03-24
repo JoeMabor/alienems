@@ -8,12 +8,13 @@ class TeamHasALeader(Exception):
         self.message = message
 
 
-class TeamDoesNotHasALeader(Exception):
+class UpdateOfTeamLeaderOfWrongTeam(Exception):
     """
-    Exception thrown if a user attempt to retrieve  a leader of given team primary key
+    Exception thrown if a user attempt to update team leader but provided team is not the team whose leader needed to
+    be changed
     """
-    def __init__(self, message="Team does not has a leader"):
-        super(TeamDoesNotHasALeader, self).__init__(message)
+    def __init__(self, message="Provided team is not of team leader being changed"):
+        super(UpdateOfTeamLeaderOfWrongTeam, self).__init__(message)
         self.message = message
 
 

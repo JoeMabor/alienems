@@ -71,11 +71,15 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
         """
         # check if team exists in repository
         old_team_leader = self._team_leader_repo.retrieve_team_leader(request_data.id)
+
         if old_team_leader is None:
             raise domain_validators.ObjectEntityDoesNotExist("Team leader does not exist")
         team = self._team_repo.team_exists(team_pk=request_data.team_id)
         if team is None:
             raise domain_validators.TeamDoesNotExist()
+        if team.id != old_team_leader.id:
+            raise domain_validators.UpdateOfTeamLeaderOfWrongTeam()
+        print(F"Old team: {team.id}")
         # team is in repository
         # check is employee exist in repository before assigning him/her as a leader
         employee = self._employee_repo.employee_exists(employee_pk=request_data.employee_id)
@@ -88,6 +92,7 @@ class TeamLeadersUseUseCase(TeamLeaderUseCasePort):
             created_at=old_team_leader.created_at,
             updated_at=datetime.datetime.now()
         )
+
         tl_entity = self._team_leader_repo.save_team_leader(updated_tl_entity)
         return tl_entity
 

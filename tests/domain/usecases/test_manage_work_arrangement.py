@@ -157,7 +157,7 @@ class TestManageWorkArrangementsUseCase(unittest.TestCase):
         self.assertEqual(work_times[1].hours, 4)  # 4 hours 10% * 40
         # add new employee in the same team
 
-    def test_create_arrangement_team_employee(self):
+    def test_add_arrangement_team_employee(self):
         """Add work arrangement for an employee is already a team member"""
 
         # Full time employee
@@ -185,7 +185,6 @@ class TestManageWorkArrangementsUseCase(unittest.TestCase):
         self.assertEqual(work_times[1].work_arrangement.id, new_wa.id)
         # assert work time hours for full time employee is 40
         self.assertEqual(work_times[1].hours, 34)  # 4 hours 85% * 40
-        # add new employee in the same team
 
     def test_work_arrangement_in_valid_requests(self):
         # add work arrangement with employee that doesnt exist

@@ -84,6 +84,10 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
             self._team_employee_repo.save_team_employee(new_te_entity)
             # check if team has a leader otherwise make an employee a team leader
             if team.has_a_leader:
+                # team already have a leader
+                pass
+            else:
+                # No leader, make new employee the leader by default
                 new_tl_entity = TeamLeaderEntity(
                     leader=employee,
                     team=team,
@@ -105,6 +109,9 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         work_hours = WorkArrangementEntity.calculate_work_time_hours(request_data.percent)
         work_time = WorkTimeEntity(hours=work_hours, employee=employee, work_arrangement=new_wa_entity)
         self._work_time_repo.save_work_time(work_time)
+        # get employee with update work times and pay
+        employee_with_updated_pay = self._employee_repo.retrieve_by_id(new_wa_entity.employee.id)
+        new_wa_entity.employee = employee_with_updated_pay
         return new_wa_entity
 
     def update_work_arrangement(self, request_data: request_data_models.UpdateWorkArrangementData):
@@ -149,6 +156,8 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
             self._team_employee_repo.save_team_employee(new_te_entity)
             # check if team has a leader otherwise make an employee a team leader
             if team.has_a_leader:
+                pass
+            else:
                 new_tl_entity = TeamLeaderEntity(
                     leader=employee,
                     team=team,
@@ -177,8 +186,10 @@ class WorkArrangementUseCase(WorkArrangementUseCasePort):
         else:
             # work time not in database: create new one
             work_time = WorkTimeEntity(hours=work_hours, employee=employee, work_arrangement=new_wa_entity)
-
         self._work_time_repo.save_work_time(work_time)
+        # get employee with update work times and pay
+        employee_with_updated_pay = self._employee_repo.retrieve_by_id(new_wa_entity.employee.id)
+        new_wa_entity.employee = employee_with_updated_pay
         return new_wa_entity
 
     def delete_work_arrangement(self, wa_pk):

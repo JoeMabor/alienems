@@ -100,6 +100,7 @@ class ManageEmployeesView(viewsets.ViewSet):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except (domain_exceptions.EmployeeIDIsNotUnique,
                     domain_exceptions.WorkArrangementPercentageOutOfRange,
+                    domain_exceptions.TeamDoesNotExist,
                     domain_exceptions.TeamHasALeader,
                     domain_exceptions.WorkArrangementPercentageNull
                     ) as e:
@@ -182,6 +183,7 @@ class TeamLeaderView(viewsets.ViewSet):
             except (
                     domain_exceptions.TeamDoesNotExist,
                     domain_exceptions.ObjectEntityDoesNotExist,
+                    domain_exceptions.UpdateOfTeamLeaderOfWrongTeam,
                     domain_exceptions.EmployeeDoesNotExist
             )as e:
                 return Response(e.message, status=status.HTTP_400_BAD_REQUEST)

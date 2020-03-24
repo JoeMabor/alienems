@@ -50,7 +50,7 @@ class TeamLeader(models.Model):
     A model that maps teams employees table containing each team members.
     """
     leader = models.ForeignKey(Employee, related_name="teamLeader", on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.OneToOneField(Team, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now())
     updated_at = models.DateTimeField(default=datetime.datetime.now())
 

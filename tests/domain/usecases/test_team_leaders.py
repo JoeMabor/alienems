@@ -179,6 +179,15 @@ class TestTeamLeadersUseCase(unittest.TestCase):
         with self.assertRaises(domain_exceptions.EmployeeDoesNotExist):
             request_data = request_data_models.UpdateTeamLeaderRequestData(
                 id=1,
+                team_id=1,
+                employee_id=3,
+            )
+            self.use_case.change_team_leader(request_data)
+
+        # Change team leader but provided different team not of the team leader object to be changed
+        with self.assertRaises(domain_exceptions.UpdateOfTeamLeaderOfWrongTeam):
+            request_data = request_data_models.UpdateTeamLeaderRequestData(
+                id=1,
                 team_id=2,
                 employee_id=3,
             )

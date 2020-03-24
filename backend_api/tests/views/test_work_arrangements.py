@@ -66,6 +66,7 @@ class TestWorkArrangementUseCase(APITestCase):
         }
         response = self.client.post("/work-arrangements/", work_arrangement)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['employee']["pay"], '2090.00')  # assert employee pay is updated
 
     def test_add_work_arrangement_invalid_requests(self):
         # assign work arrangement with employee that doesnt exist

@@ -16,7 +16,9 @@ from backend_api.models import TeamLeader
 def get_team_leader(team_pk):
 
     try:
+        print(team_pk)
         team_leader = TeamLeader.objects.get(team_id=team_pk)
+
         return team_leader.leader
     except TeamLeader.DoesNotExist:
         return None
