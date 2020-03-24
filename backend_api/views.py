@@ -10,7 +10,7 @@ import backend_api.serializers as data_serializers
 
 
 class HomeView(TemplateView):
-    template_name  = "index.html"
+    template_name = "index.html"
 
 
 class ManageTeamView(viewsets.ViewSet):
@@ -20,7 +20,7 @@ class ManageTeamView(viewsets.ViewSet):
     def get_team_object(self, team_pk=None):
         try:
             return self.controller.retrieve_team(team_pk=team_pk)
-        except ObjectDoesNotExist:
+        except domain_exceptions.ObjectEntityDoesNotExist:
             raise Http404
 
     def list(self, request):
@@ -35,10 +35,10 @@ class ManageTeamView(viewsets.ViewSet):
 
     def create(self, request):
         serializer = data_serializers.CreateTeamSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
-            team_entity = serializer.save()
+        if serializer.is_valid(raise_exception=True):
+            request_data = serializer.save()
             try:
-                new_team_entity = self.controller.create_team(team_entity=team_entity)
+                new_team_entity = self.controller.create_team(request_data=request_data)
                 serializer = data_serializers.PresentTeamSerializer(new_team_entity)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except domain_exceptions.TeamHasALeader as e:
@@ -49,10 +49,10 @@ class ManageTeamView(viewsets.ViewSet):
     def update(self, request, pk):
         print("Update a team")
         serializer = data_serializers.UpdateTeamSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
-            team_entity = serializer.save()
-            new_team_entity = self.controller.update_team(team_entity=team_entity)
-            print(F"new Team entity: {team_entity.name}")
+        if serializer.is_valid(raise_exception=True):
+            request_data = serializer.save()
+            new_team_entity = self.controller.update_team(request_data=request_data)
+
             serializer = data_serializers.PresentTeamSerializer(new_team_entity)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -73,7 +73,7 @@ class ManageEmployeesView(viewsets.ViewSet):
     def get_employee_object(self, pk):
         try:
             return self.controller.retrieve_employee(pk)
-        except ObjectDoesNotExist:
+        except domain_exceptions.ObjectEntityDoesNotExist:
             raise Http404
 
     def list(self, request):
@@ -90,7 +90,7 @@ class ManageEmployeesView(viewsets.ViewSet):
     def create(self, request):
         serializer = data_serializers.CreateEmployeeSerializer(data=request.data)
 
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             print(F"Request employee Data: {serializer.data}")
 
@@ -110,12 +110,18 @@ class ManageEmployeesView(viewsets.ViewSet):
     def update(self, request, pk):
         print("Update a employee")
         serializer = data_serializers.UpdateEmployeeRequestSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
-
-            new_employee_entity = self.controller.update_employee(request_data=request_data)
-            serializer = data_serializers.PresentEmployeeDataSerializer(new_employee_entity)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                new_employee_entity = self.controller.update_employee(request_data=request_data)
+                serializer = data_serializers.PresentEmployeeDataSerializer(new_employee_entity)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except (domain_exceptions.EmployeeIDIsNotUnique,
+                    domain_exceptions.WorkArrangementPercentageOutOfRange,
+                    domain_exceptions.TeamHasALeader,
+                    domain_exceptions.ObjectEntityDoesNotExist
+                    ) as e:
+                return Response(e.message, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -123,8 +129,8 @@ class ManageEmployeesView(viewsets.ViewSet):
         try:
             deleted_team = self.controller.delete_employee(pk)
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except ObjectDoesNotExist:
-            return Response(ObjectDoesNotExist, status=status.HTTP_400_BAD_REQUEST)
+        except domain_exceptions.ObjectEntityDoesNotExist as e:
+            return Response(e.message, status=status.HTTP_404_NOT_FOUND)
 
 
 class TeamLeaderView(viewsets.ViewSet):
@@ -134,7 +140,7 @@ class TeamLeaderView(viewsets.ViewSet):
     def get_team_leader_object(self, pk):
         try:
             return self.controller.retrieve_team_leader(pk)
-        except ObjectDoesNotExist:
+        except domain_exceptions.ObjectEntityDoesNotExist:
             raise Http404
 
     def list(self, request):
@@ -149,7 +155,7 @@ class TeamLeaderView(viewsets.ViewSet):
 
     def create(self, request):
         serializer = data_serializers.TeamLeaderOrEmployeeRequestDataSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             try:
                 new_team_entity = self.controller.assign_team_leader(request_data=request_data)
@@ -167,7 +173,7 @@ class TeamLeaderView(viewsets.ViewSet):
     def update(self, request, pk):
         print("Update a team")
         serializer = data_serializers.UpdateTeamLeaderRequestDataSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             try:
                 new_team_entity = self.controller.change_team_leader(request_data=request_data)
@@ -210,7 +216,7 @@ class TeamEmployeeView(viewsets.ViewSet):
 
     def create(self, request):
         serializer = data_serializers.TeamLeaderOrEmployeeRequestDataSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             try:
                 respond_data = self.controller.add_team_employee(request_data=request_data)
@@ -268,7 +274,7 @@ class WorkArrangementsView(viewsets.ViewSet):
     def get_work_arrangement_object(self, pk):
         try:
             return self.controller.view_work_arrangement(pk)
-        except ObjectDoesNotExist:
+        except domain_exceptions.ObjectEntityDoesNotExist:
             raise Http404
 
     def list(self, request):
@@ -288,14 +294,14 @@ class WorkArrangementsView(viewsets.ViewSet):
 
     def create(self, request):
         serializer = data_serializers.CreateWorkArrangementSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             try:
                 work_arrangement = self.controller.add_work_arrangement(request_data=request_data)
                 serializer = data_serializers.PresentWorkArrangementsDataSerializer(work_arrangement)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except (
-                    domain_exceptions.EmployeeDoesNotExist,
+                    domain_exceptions.ObjectEntityDoesNotExist,
                     domain_exceptions.TeamDoesNotExist,
                     domain_exceptions.MultipleWorksForFullTimeEmployee,
                     domain_exceptions.MultipleWorkArrangementInOneTeam,
@@ -307,7 +313,7 @@ class WorkArrangementsView(viewsets.ViewSet):
 
     def update(self, request, pk):
         serializer = data_serializers.UpdateWorkArrangementSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=False):
+        if serializer.is_valid(raise_exception=True):
             request_data = serializer.save()
             try:
                 new_team_entity = self.controller.update_work_arrangement(request_data=request_data)

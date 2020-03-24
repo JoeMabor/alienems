@@ -21,9 +21,9 @@ class TeamRepoPortImp(TeamRepoPort):
     def retrieve_by_id(self, team_pk):
         try:
             team_obj = Team.objects.get(pk=team_pk)
+            return DataConverters.to_team_entity(team_obj)
         except Team.DoesNotExist:
-            raise Team.DoesNotExist
-        return DataConverters.to_team_entity(team_obj)
+            return None
 
     def save(self, team_entity: TeamEntity):
         team_model = DataConverters.from_team_entity(team_entity)

@@ -46,6 +46,7 @@ class TeamEmployeeRepoImpl(TeamEmployeeRepoPort):
         return DataConverters.to_team_employee_entity(te_model)
 
     def delete_team_employee(self, te_pk: int):
+        """Retrieve tea"""
         team_employee = TeamEmployee.objects.get(pk=te_pk)
         team_employee.delete()
         return DataConverters.to_team_employee_entity(team_employee)

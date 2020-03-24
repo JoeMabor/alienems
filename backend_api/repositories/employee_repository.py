@@ -30,7 +30,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
             employee_obj = Employee.objects.get(pk=employee_pk)
             return DataConverters.to_employee_entity(employee_obj)
         except Employee.DoesNotExist:
-            raise Employee.DoesNotExist
+            return None
 
     def save(self, employee_entity: EmployeeEntity):
         """

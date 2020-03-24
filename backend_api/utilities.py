@@ -58,7 +58,6 @@ class DataConverters:
 
     @staticmethod
     def from_team_entity(team_entity: TeamEntity):
-        print("Converting to django model team instanct")
         team_model = Team(
             id=team_entity.id,
             name=team_entity.name,
