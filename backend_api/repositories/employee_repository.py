@@ -34,7 +34,7 @@ class EmployeeRepoPortImp(EmployeeRepoPort):
 
     def save(self, employee_entity: EmployeeEntity):
         """
-        Concrete implementation of abstract save function in EmployeeRepot port
+        Concrete implementation of abstract save function in EmployeeReport
         :param employee_entity:
         :return:
         """
