@@ -258,18 +258,18 @@ class TestEmployeeEntity(unittest.TestCase):
     def test_calculate_pay(self):
         """tests pay is calculated correctly"""
         # part time employee and not a leader
-        self.assertEqual(self.employee_2.calculate_pay(), 1000.00)
+        self.assertEqual(self.employee_2.calculate_pay(), 4000.00)
         # a leader and full time employee
-        self.assertEqual(self.employee_3.calculate_pay(), 2200.00)
+        self.assertEqual(self.employee_3.calculate_pay(), 8800.00)
 
     def test_pay(self):
         """tests if pay gives correct calculated pay as values total hours"""
         # total work hours not given
         self.assertIsNone(self.employee_1.pay)
         # part time employee and not a leader
-        self.assertEqual(self.employee_2.pay, 1000.00)
+        self.assertEqual(self.employee_2.pay, 4000.00)
         # a leader and full time employee
-        self.assertEqual(self.employee_3.pay, 2200.00)
+        self.assertEqual(self.employee_3.pay, 8800.00)
 
     def test_set_work_time_hours_valid_inputs(self):
         """tests correct valid inputs are set correctly"""

@@ -20,7 +20,6 @@ class EmployeeEntity:
                  created_at: datetime.datetime = None,
                  updated_at: datetime.datetime = None,
                  total_work_hours: int = None
-
                  ):
 
         self._id = id
@@ -34,6 +33,7 @@ class EmployeeEntity:
         self._is_a_leader = is_a_leader
         self._pay = None
         self._bonus_percent = decimal.Decimal(value=0.10)
+        self._weeks_in_month = 4  # assume number of weeks in a month is 4
 
     @property
     def id(self):
@@ -127,8 +127,9 @@ class EmployeeEntity:
         self._is_a_leader = is_leader
 
     def calculate_pay(self):
+        """Calculate monthly pay. weekly total hours * hourly rate * number of weeks in a month"""
         # calculate employee pay
-        pay = self._total_work_hours * self._hourly_rate
+        pay = self._total_work_hours * self._hourly_rate * self._weeks_in_month
         if self._is_a_leader:
             # leader get paid 10 % more
             pay += self.add_leadership_bonus(pay)

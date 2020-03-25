@@ -4,8 +4,8 @@ Backend api for a fictional company employee management system that manage emplo
 enable an accountant to retrieve list of employees in the system with their respective pays.
 ## Business rules
 Each team is lead by one team leader who can also leads more teams at the same time. An employee must be in at least one team. The alien
-allows two types of work arrangement:- full time and part time. Unlike full time employees can work for 40 hours a day,
-part time employee can multiple work arrangements as long an employee does not exceed 40 hours a day, and in different
+allows two types of work arrangement:- full time and part time. Unlike full time employees can work for 40 hours a week.
+Part time employee can multiple work arrangements as long an employee does not exceed 40 hours limit, and in different
 teams.
 
 The system design uses [a Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) 
