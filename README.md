@@ -3,7 +3,7 @@
 Backend api for a fictional company employee management system that manage employees in seperate teams. The system 
 enable an accountant to retrieve list of employees in the system with their respective pays.
 ## Business rules
-Each team is lead by one team leader who can also leads more teams at the same time. An employee must be in at least one team. The alien
+Each team is led by one team leader who can also leads more teams at the same time. An employee must be in at least one team. The alien
 allows two types of work arrangement:- full time and part time. Unlike full time employees can work for 40 hours a week.
 Part time employee can multiple work arrangements as long an employee does not exceed 40 hours limit, and in different
 teams.
@@ -47,6 +47,9 @@ a lot of unit tests for core  business rules and without depending on django fra
 6. work times: View employees work time
     - /work-times/
      - /work-times/pk/
+     
+## Running tests
+    `coverage run manage.py test`
      
 
     

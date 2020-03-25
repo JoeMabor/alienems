@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">90%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+<div id="index">
+    <table class="index">
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1900</td>
+                <td>181</td>
+                <td>0</td>
+                <td class="right" data-ratio="1719 1900">90%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="file">
+                <td class="name left"><a href="alienems___init___py.html">alienems\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="alienems_settings_py.html">alienems\settings.py</a></td>
+                <td>19</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 19">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="alienems_urls_py.html">alienems\urls.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api___init___py.html">backend_api\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_admin_py.html">backend_api\admin.py</a></td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 8">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_app_config_py.html">backend_api\app_config.py</a></td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 8">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_apps_py.html">backend_api\apps.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_models_py.html">backend_api\models.py</a></td>
+                <td>56</td>
+                <td>3</td>
+                <td>0</td>
+                <td class="right" data-ratio="53 56">95%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories___init___py.html">backend_api\repositories\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_employee_repository_py.html">backend_api\repositories\employee_repository.py</a></td>
+                <td>41</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="39 41">95%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_team_employee_repository_py.html">backend_api\repositories\team_employee_repository.py</a></td>
+                <td>44</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="44 44">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_team_leader_repository_py.html">backend_api\repositories\team_leader_repository.py</a></td>
+                <td>22</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="22 22">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_team_repository_py.html">backend_api\repositories\team_repository.py</a></td>
+                <td>45</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="43 45">96%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_work_arrangement_repository_py.html">backend_api\repositories\work_arrangement_repository.py</a></td>
+                <td>45</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="45 45">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_repositories_work_time_repository_py.html">backend_api\repositories\work_time_repository.py</a></td>
+                <td>25</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="23 25">92%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_serializers_py.html">backend_api\serializers.py</a></td>
+                <td>205</td>
+                <td>83</td>
+                <td>0</td>
+                <td class="right" data-ratio="122 205">60%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_urls_py.html">backend_api\urls.py</a></td>
+                <td>23</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="23 23">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_utilities_py.html">backend_api\utilities.py</a></td>
+                <td>61</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="61 61">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="backend_api_views_py.html">backend_api\views.py</a></td>
+                <td>235</td>
+                <td>18</td>
+                <td>0</td>
+                <td class="right" data-ratio="217 235">92%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain___init___py.html">domain\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters___init___py.html">domain\adapters\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_apps___init___py.html">domain\adapters\apps\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers___init___py.html">domain\adapters\controllers\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_manage_employees_controller_py.html">domain\adapters\controllers\manage_employees_controller.py</a></td>
+                <td>15</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 15">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_manage_teams_controller_py.html">domain\adapters\controllers\manage_teams_controller.py</a></td>
+                <td>15</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 15">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_team_employees_controller_py.html">domain\adapters\controllers\team_employees_controller.py</a></td>
+                <td>13</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 13">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_team_leaders_controller_py.html">domain\adapters\controllers\team_leaders_controller.py</a></td>
+                <td>13</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 13">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_work_arrangements_controller_py.html">domain\adapters\controllers\work_arrangements_controller.py</a></td>
+                <td>15</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="15 15">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_adapters_controllers_work_time_controller_py.html">domain\adapters\controllers\work_time_controller.py</a></td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 8">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_configs___init___py.html">domain\configs\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_configs_controller_factory_py.html">domain\configs\controller_factory.py</a></td>
+                <td>38</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="38 38">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_configs_use_case_factory_py.html">domain\configs\use_case_factory.py</a></td>
+                <td>32</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="32 32">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities___init___py.html">domain\entities\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_employee_py.html">domain\entities\employee.py</a></td>
+                <td>96</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="96 96">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_team_py.html">domain\entities\team.py</a></td>
+                <td>41</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="40 41">98%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_team_employee_py.html">domain\entities\team_employee.py</a></td>
+                <td>23</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="23 23">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_team_leader_py.html">domain\entities\team_leader.py</a></td>
+                <td>23</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="23 23">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_validators_py.html">domain\entities\validators.py</a></td>
+                <td>84</td>
+                <td>14</td>
+                <td>0</td>
+                <td class="right" data-ratio="70 84">83%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_work_arrangment_py.html">domain\entities\work_arrangment.py</a></td>
+                <td>48</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="48 48">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_entities_work_time_py.html">domain\entities\work_time.py</a></td>
+                <td>31</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="31 31">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases___init___py.html">domain\usecases\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_data_models___init___py.html">domain\usecases\data_models\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_data_models_request_data_models_py.html">domain\usecases\data_models\request_data_models.py</a></td>
+                <td>48</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="48 48">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_manage_employees_use_case_py.html">domain\usecases\manage_employees_use_case.py</a></td>
+                <td>93</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="93 93">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_manage_teams_use_case_py.html">domain\usecases\manage_teams_use_case.py</a></td>
+                <td>36</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="36 36">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_manage_work_arrangement_use_case_py.html">domain\usecases\manage_work_arrangement_use_case.py</a></td>
+                <td>99</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="95 99">96%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports___init___py.html">domain\usecases\ports\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_manage_employees_ports_py.html">domain\usecases\ports\manage_employees_ports.py</a></td>
+                <td>17</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 17">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_manage_teams_ports_py.html">domain\usecases\ports\manage_teams_ports.py</a></td>
+                <td>17</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 17">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_team_employee_port_py.html">domain\usecases\ports\team_employee_port.py</a></td>
+                <td>15</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="11 15">73%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_team_leaders_port_py.html">domain\usecases\ports\team_leaders_port.py</a></td>
+                <td>14</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 14">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_work_arrangements_port_py.html">domain\usecases\ports\work_arrangements_port.py</a></td>
+                <td>14</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 14">71%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_ports_work_times_port_py.html">domain\usecases\ports\work_times_port.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories___init___py.html">domain\usecases\repositories\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_employee_repository_py.html">domain\usecases\repositories\employee_repository.py</a></td>
+                <td>16</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="11 16">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_team_employees_repository_py.html">domain\usecases\repositories\team_employees_repository.py</a></td>
+                <td>19</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 19">68%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_team_leader_repository_py.html">domain\usecases\repositories\team_leader_repository.py</a></td>
+                <td>11</td>
+                <td>3</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 11">73%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_team_repository_py.html">domain\usecases\repositories\team_repository.py</a></td>
+                <td>18</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 18">72%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_work_arrangement_repository_py.html">domain\usecases\repositories\work_arrangement_repository.py</a></td>
+                <td>22</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="right" data-ratio="16 22">73%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_repositories_work_time_repository_py.html">domain\usecases\repositories\work_time_repository.py</a></td>
+                <td>13</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 13">69%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_team_employees_use_case_py.html">domain\usecases\team_employees_use_case.py</a></td>
+                <td>44</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="43 44">98%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_team_leaders_use_case_py.html">domain\usecases\team_leaders_use_case.py</a></td>
+                <td>49</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="49 49">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="domain_usecases_work_times_use_case_py.html">domain\usecases\work_times_use_case.py</a></td>
+                <td>13</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 13">100%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.0.4</a>,
+            created at 2020-03-25 12:13
+        </p>
+    </div>
+</div>
+</body>
+</html>
