@@ -1,4 +1,4 @@
-#Alien EMS
+# Alien EMS
 
 Backend api for a fictional company employee management system that manage employees in seperate teams. The system 
 enable an accountant to retrieve list of employees in the system with their respective pays.
@@ -27,7 +27,7 @@ a lot of unit tests for core  business rules and without depending on django fra
 3. Open the web server:- `python manage.py runserver`
 
 
-##Available routes 
+## Available routes 
 
 1. Teams: Add , view, update and delete teams
     - /teams/
@@ -49,7 +49,11 @@ a lot of unit tests for core  business rules and without depending on django fra
      - /work-times/pk/
      
 ## Running tests
-    `coverage run manage.py test`
+
+
+Run the following command in the terminal inside the project folder
+ 1. Run tests:- `coverage run manage.py test`
+ 2. Generate test reports with coverage:- `coverage html`
      
 
     
